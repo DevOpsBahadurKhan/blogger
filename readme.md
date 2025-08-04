@@ -1,0 +1,1 @@
+Client → Route → Controller → Service → Repository → Model → DB

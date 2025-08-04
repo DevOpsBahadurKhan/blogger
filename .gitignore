@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# dotenv
+.env
+.env.*   # like .env.development, .env.test etc.
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Build artifacts (if any)
+dist/
+build/
+
+# Coverage (if using Jest or other testing tools)
+coverage/
+
+# Sequelize migrations & config (if not needed in repo)
+*.sqlite
+*.sqlite3
+database.sqlite
+config/config.json
+
+# Optional: ignore local uploads folder if exists
+uploads/
