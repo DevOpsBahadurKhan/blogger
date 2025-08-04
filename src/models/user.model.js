@@ -26,10 +26,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        role: {
-            type: DataTypes.ENUM('admin', 'author', 'reader'),
-            defaultValue: 'reader'
-        }
+        role_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 3,
+            references: {
+                model: 'roles',
+                key: 'id'
+            }
+        },
     }, {
         tableName: 'users',
         timestamps: true,
@@ -53,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // Relationships
     User.associate = (models) => {
+        User.belongsTo(models.Role, { foreignKey: 'role_id', as: 'role' });
         User.hasMany(models.Post, { foreignKey: 'user_id', as: 'posts' });
         User.hasMany(models.Comment, { foreignKey: 'user_id', as: 'comments' });
     };

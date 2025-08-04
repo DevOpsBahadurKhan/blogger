@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const logger = require('../utils/logger');
 
 const DB_NAME = process.env.DB_NAME;
 const DB_USER = process.env.DB_USER;
@@ -19,15 +20,15 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 // Connect & Sync
 const connectDB = async () => {
     try {
-        await createDatabaseIfNotExists(DB_HOST, DB_USER, DB_PASS, DB_NAME);  // 👈 auto-create DB first
+        await createDatabaseIfNotExists(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
         await sequelize.authenticate();
-        console.log('✅ Database connected!');
+        logger.info('✅ Database connected!');
 
-        await sequelize.sync({ alter: false, force: false }); // create/update tables
-        console.log('📦 All models synchronized (auto-migrated).');
+        await sequelize.sync({ alter: false, force: false }); 
+        logger.info('📦 All models synchronized (auto-migrated).');
     } catch (error) {
-        console.error('❌ Unable to connect to the database:', error);
+        logger.error('❌ Unable to connect to the database:', error);
         process.exit(1);
     }
 };
