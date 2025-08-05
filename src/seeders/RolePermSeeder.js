@@ -1,19 +1,26 @@
-const { Role, Permission } = require('../models');
-const sequelize = require('../config/db.config'); // or wherever you export Sequelize instance
+import dotenv from 'dotenv';
+dotenv.config();
+
+import db from '../models/index.js'; // ✅ Already fine
+
+const { Role, Permission, sequelize } = db;
 
 (async () => {
   try {
     await sequelize.sync();
 
-    // Insert roles
-    const roles = await Role.bulkCreate([
-      { id: 1, name: 'superAdmin' },
-      { id: 2, name: 'admin' },
-      { id: 3, name: 'author' },
-      { id: 4, name: 'reader' },
-    ], { ignoreDuplicates: true });
+    // ✅ Insert roles if not already present
+    const rolesToInsert = [
+      { id: 1, name: 'admin' },
+      { id: 2, name: 'author' },
+      { id: 3, name: 'reader' },
+    ];
 
-    // Insert permissions
+    for (const role of rolesToInsert) {
+      await Role.findOrCreate({ where: { id: role.id }, defaults: role });
+    }
+
+    // ✅ Now insert permissions
     await Permission.bulkCreate([
       { role_id: 1, resource: 'user', action: 'create', possession: 'any' },
       { role_id: 1, resource: 'user', action: 'update', possession: 'any' },
@@ -25,10 +32,13 @@ const sequelize = require('../config/db.config'); // or wherever you export Sequ
       { role_id: 3, resource: 'post', action: 'update', possession: 'own' },
 
       { role_id: 4, resource: 'post', action: 'read', possession: 'any' }
-    ]);
+    ], {
+      ignoreDuplicates: true
+    });
 
     console.log('✅ Roles and permissions inserted.');
     process.exit(0);
+
   } catch (err) {
     console.error('❌ Error seeding:', err);
     process.exit(1);

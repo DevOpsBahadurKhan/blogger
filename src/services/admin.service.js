@@ -1,16 +1,16 @@
-const adminRepo = require('../repositories/admin.repository');
+import adminRepo from '../repositories/admin.repository.js';
+import userRepo from '../repositories/user.repository.js'; // You forgot to import this
 
-exports.updateRole = async () => {
-  return await userRepo.getPupdateRolerofile();
+export const updateRole = async () => {
+  return await userRepo.getPupdateRolerofile(); // ⛔ Typo here — likely wrong method name
 };
 
-
-exports.createRole = async (name) => {
+export const createRole = async (name) => {
   // Optional: validate role name, check for duplicates, etc.
   return await adminRepo.createRole(name);
 };
 
-exports.createPermission = async (data) => {
+export const createPermission = async (data) => {
   // Optional: validate role existence, check duplicates, etc.
   return await adminRepo.createPermission(data);
 };

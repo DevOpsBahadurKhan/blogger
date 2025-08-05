@@ -1,29 +1,34 @@
-const express = require('express');
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './src/config/db.config.js';
+import logger from './src/utils/logger.js';
+import userRoutes from './src/routes/user.routes.js';
+import authRoutes from './src/routes/auth.routes.js';
+import passportJWT from './src/middlewares/passportJWT.js';
+import errorHandler from './src/middlewares/errorHandler.js';
+import loadAccessControl from './src/utils/accessControl.js';
+
+// Load environment variables
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-const { connectDB } = require('./src/config/db.config');
 
-const logger = require('./src/utils/logger');
-
-// import routes
-app.use('/api', require('./src/routes/user.routes'));
-app.use('/api', require('./src/routes/auth.routes'));
-app.use(require('./src/middlewares/passportJWT')().initialize());
-app.use(require('./src/middlewares/errorHandler'));
-
-const loadAccessControl = require('./src/utils/accessControl');
-
-
+// Middleware & Routes
+app.use(passportJWT().initialize());
+app.use('/api', userRoutes);
+app.use('/api', authRoutes);
+app.use(errorHandler);
 
 // Server start with DB connect
 (async () => {
-    await connectDB(); // DB connection + sync
+    await connectDB();
     const ac = await loadAccessControl();
-    global.ac = ac; // or inject it into verifyAccess
+    global.ac = ac;
+
     app.listen(PORT, () => {
         logger.info(`🚀 Server running at http://localhost:${PORT}`);
     });
 })();
-

@@ -1,6 +1,6 @@
 // src/loggers/winston.logger.js
 
-const { createLogger, transports, format } = require('winston');
+import { createLogger, transports, format } from 'winston';
 
 const winstonLogger = createLogger({
   level: 'debug',
@@ -14,7 +14,7 @@ const winstonLogger = createLogger({
   transports: [new transports.Console()],
 });
 
-class WinstonLogger {
+export default class WinstonLogger {
   info(message) {
     winstonLogger.info(message);
   }
@@ -31,5 +31,3 @@ class WinstonLogger {
     winstonLogger.debug(message);
   }
 }
-
-module.exports = WinstonLogger;

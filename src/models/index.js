@@ -1,16 +1,23 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db.config');
+import { Sequelize, DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.config.js';
+
+// Import model definition functions
+import defineUser from './user.model.js';
+import definePost from './post.model.js';
+import defineComment from './comment.model.js';
+import defineRole from './role.js';
+import definePermission from './permission.js';
 
 const db = {};
 
-// Register models with both `sequelize` and `DataTypes`
-db.User = require('./user.model')(sequelize, DataTypes);
-db.Post = require('./post.model')(sequelize, DataTypes);
-db.Comment = require('./comment.model')(sequelize, DataTypes);
-db.Role = require('./role')(sequelize, DataTypes);
-db.Permission = require('./permission')(sequelize, DataTypes);
+// Initialize models
+db.User = defineUser(sequelize, DataTypes);
+db.Post = definePost(sequelize, DataTypes);
+db.Comment = defineComment(sequelize, DataTypes);
+db.Role = defineRole(sequelize, DataTypes);
+db.Permission = definePermission(sequelize, DataTypes);
 
-// Setup relationships (if defined inside associate methods)
+// Run associations
 Object.values(db).forEach((model) => {
     if (model.associate) {
         model.associate(db);
@@ -20,4 +27,4 @@ Object.values(db).forEach((model) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;

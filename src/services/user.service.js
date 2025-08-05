@@ -1,9 +1,9 @@
-const userRepo = require('../repositories/user.repository');
+import * as userRepo from '../repositories/user.repository.js';
 
-exports.getProfile = async () => {
-    return await userRepo.getProfile();
+export const getProfile = async () => {
+  return await userRepo.getProfile();
 };
 
-exports.me = async (id) => {
-  return await  userRepo.me(id);
+export const me = async (id) => {
+  return await userRepo.me(id);
 };

@@ -1,35 +1,34 @@
-// src/routes/admin.routes.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const { updateUserRoleValidator } = require('../validators/validator');
+import { updateUserRoleValidator } from '../validators/validator.js';
 
-const passportJWT = require('../middlewares/passportJWT')();
-const verifyAccess = require('../middlewares/verifyAccess');
-const controller = require('../controllers/admin.controller');
+import passportJWT from '../middlewares/passportJWT.js';
+const jwtMiddleware = passportJWT(); // ✅ renamed instance
 
+import verifyAccess from '../middlewares/verifyAccess.js';
+import * as controller from '../controllers/admin.controller.js';
 
 router.patch(
     '/role/:userId',
     updateUserRoleValidator,
-    passportJWT.authenticate(),
+    jwtMiddleware.authenticate(),
     verifyAccess('update', 'user', 'any'),
     controller.updateRole
 );
 
-
 router.post(
     '/roles',
-    passportJWT.authenticate(),
+    jwtMiddleware.authenticate(),
     verifyAccess('create', 'role', 'any'),
     controller.createRole
 );
 
 router.post(
     '/permissions',
-    passportJWT.authenticate(),
+    jwtMiddleware.authenticate(),
     verifyAccess('create', 'permission', 'any'),
     controller.createPermission
 );
 
-module.exports = router;
+export default router;

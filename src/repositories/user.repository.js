@@ -1,16 +1,14 @@
-//src/repositories/user.repository.js
+import db from '../models/index.js';
 
-const { User, Role } = require('../models')
+const { User, Role } = db;
 
-
-exports.getProfile = async () => {
+export const getProfile = async () => {
     return await User.findAll({
         attributes: { exclude: ['password'] }
     });
-}
+};
 
-
-exports.me = async (id) => {
+export const me = async (id) => {
     return await User.findByPk(id, {
         include: {
             model: Role,

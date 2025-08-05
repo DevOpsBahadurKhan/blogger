@@ -1,9 +1,7 @@
-// src/controllers/auth.controller.js
-const authService = require('../services/auth.service');
-const validationHandler = require('../validators/validationHandler');
+import authService from '../services/auth.service.js';
+import validationHandler from '../validators/validationHandler.js';
 
-
-exports.register = async (req, res, next) => {
+export const register = async (req, res, next) => {
     try {
         validationHandler(req);
 
@@ -22,8 +20,7 @@ exports.register = async (req, res, next) => {
     }
 };
 
-
-exports.login = async (req, res, next) => {
+export const login = async (req, res, next) => {
     try {
         validationHandler(req);
 
@@ -37,8 +34,7 @@ exports.login = async (req, res, next) => {
         });
 
         res.json({ user, accessToken });
-
     } catch (error) {
         next(error);
     }
-}
+};

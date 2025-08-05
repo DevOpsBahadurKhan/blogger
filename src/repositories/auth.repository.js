@@ -1,9 +1,7 @@
-// src/repositories/user.repository.js
-const { User } = require('../models');
+import db from '../models/index.js';
+const { User } = db;
 
 class UserRepository {
-
-
     async findByEmail(email) {
         return await User.findOne({ where: { email } });
     }
@@ -19,8 +17,6 @@ class UserRepository {
     async register(data) {
         return await User.create(data);
     }
-
-  
 }
 
-module.exports = new UserRepository();
+export default new UserRepository();

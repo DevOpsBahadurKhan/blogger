@@ -1,5 +1,5 @@
-const postRepo = require('../repositories/post.repository');
+import * as postRepo from '../repositories/post.repository.js';
 
-exports.createPost = async (data) => {
+export const createPost = async (data) => {
     return await postRepo.createPost(data);
 };

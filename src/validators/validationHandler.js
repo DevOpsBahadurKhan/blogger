@@ -1,5 +1,6 @@
-const { validationResult } = require('express-validator');
-module.exports = req => {
+import { validationResult } from 'express-validator';
+
+export default function validateRequest(req) {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
         const error = new Error('Validation failed');

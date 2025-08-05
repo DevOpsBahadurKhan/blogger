@@ -1,23 +1,22 @@
-const { body, param } = require('express-validator');
-const mongoose = require('mongoose');
+import { body, param } from 'express-validator';
+import mongoose from 'mongoose';
 
-exports.hasQuestion = body('question')
+export const hasQuestion = body('question')
     .isLength({ min: 5 }).withMessage("Question is required. Min length 5 characters");
 
-exports.isEmail = body('email')
+export const isEmail = body('email')
     .isEmail().withMessage("Email field must contain correct email");
 
-exports.hasPassword = body('password')
+export const hasPassword = body('password')
     .exists().withMessage("Password can not be empty");
 
-exports.hasDescription = body('description').isLength({ min: 5 })
-    .withMessage("Description is required. Min length 5 characters");
+export const hasDescription = body('description')
+    .isLength({ min: 5 }).withMessage("Description is required. Min length 5 characters");
 
-exports.hasName = body('name').isLength({ min: 5 })
-    .withMessage("Name is required. Min length 5 characters");
+export const hasName = body('name')
+    .isLength({ min: 5 }).withMessage("Name is required. Min length 5 characters");
 
-
-exports.updateUserRoleValidator = [
+export const updateUserRoleValidator = [
     param('userId')
         .custom(value => mongoose.Types.ObjectId.isValid(value))
         .withMessage('Invalid user ID'),

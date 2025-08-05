@@ -1,8 +1,7 @@
-const userRepo = require('../repositories/auth.repository');
-const jwtUtil = require('../utils/jwt.util');
+import userRepo from '../repositories/auth.repository.js';
+import * as jwtUtil from '../utils/jwt.util.js';
 
 class AuthService {
-
     async register(userData) {
         const existingUser = await userRepo.findByEmail(userData.email);
         if (existingUser) {
@@ -17,7 +16,6 @@ class AuthService {
         const refreshToken = jwtUtil.generateRefreshToken(user);
 
         user = await userRepo.updateRefreshToken(user.id, refreshToken);
-
 
         return {
             user: {
@@ -59,10 +57,7 @@ class AuthService {
             accessToken,
             refreshToken
         };
-
-
-
     }
 }
 
-module.exports = new AuthService(); // export as singleton instance
+export default new AuthService(); // singleton instance

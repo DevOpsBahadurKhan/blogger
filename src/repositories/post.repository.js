@@ -1,8 +1,5 @@
-//src/repositories/post.repository.js
-
-const { Post } = require('../models')
-
-
-exports.createPost = async (data) => {
+import db from '../models/index.js';
+const { Post } = db;
+export const createPost = async (data) => {
     return await Post.create(data);
-}
+};

@@ -1,9 +1,10 @@
 // src/middlewares/logger.js
 
-const ConsoleLogger = require('../loggers/console.logger');
-const WinstonLogger = require('../loggers/winston.logger');
+import ConsoleLogger from '../loggers/console.logger.js';
+import WinstonLogger from '../loggers/winston.logger.js';
 
-class Logger {
+
+export default class Logger {
     static createLogger(type = 'console') {
         switch (type.toLowerCase()) {
             case 'winston':
@@ -15,4 +16,4 @@ class Logger {
     }
 }
 
-module.exports = Logger;
+

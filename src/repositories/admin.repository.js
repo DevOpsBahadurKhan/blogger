@@ -1,18 +1,14 @@
-//src/repositories/user.repository.js
+import db from '../models/index.js';
+const { Role, Permission } = db;
 
-const { Role, Permission } = require('../models')
+export const updateRole = async (req, res, next) => {
+    // Implementation pending
+};
 
-
-exports.updateRole = async (req, res, next) => {
-
-}
-
-
-
-exports.createRole = async (name) => {
+export const createRole = async (name) => {
     return await Role.create({ name });
 };
 
-exports.createPermission = async ({ role_id, resource, action, possession }) => {
+export const createPermission = async ({ role_id, resource, action, possession }) => {
     return await Permission.create({ role_id, resource, action, possession });
 };

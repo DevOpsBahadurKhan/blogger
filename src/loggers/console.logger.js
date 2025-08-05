@@ -1,6 +1,6 @@
 // src/loggers/console.logger.js
 
-class ConsoleLogger {
+export default class ConsoleLogger {
   info(message) {
     console.info(`[INFO]: ${message}`);
   }
@@ -17,5 +17,3 @@ class ConsoleLogger {
     console.debug(`[DEBUG]: ${message}`);
   }
 }
-
-module.exports = ConsoleLogger;

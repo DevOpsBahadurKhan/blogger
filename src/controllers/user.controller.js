@@ -1,31 +1,24 @@
-// src/controllers/auth.controller.js
-const userService = require('../services/user.service');
-// const validationHandler = require('../validators/validationHandler');
+import * as userService from '../services/user.service.js';
+// import validationHandler from '../validators/validationHandler.js'; // Uncomment when needed
 
-
-exports.getProfile = async (req, res, next) => {
+export const getProfile = async (req, res, next) => {
     try {
-
-        let user = await userService.getProfile();
-        res.send(user);
-
+        const users = await userService.getProfile();
+        res.send(users);
     } catch (err) {
-        next(err)
+        next(err);
     }
 };
-
 
 /**
  * Get the authenticated user's profile.
  */
-exports.me = async (req, res, next) => {
+export const me = async (req, res, next) => {
     try {
         const id = req.user.id;
-        let user = await userService.me(id);
+        const user = await userService.me(id);
         res.send(user);
-
     } catch (err) {
-        next(err)
+        next(err);
     }
 };
-

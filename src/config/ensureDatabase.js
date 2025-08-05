@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise');       // 👈 Needed to create DB
+import mysql from 'mysql2/promise'; // ✅ ES module import
 
 // Create DB if not exists using mysql2
 const createDatabaseIfNotExists = async (DB_HOST, DB_USER, DB_PASS, DB_NAME) => {
@@ -18,4 +18,4 @@ const createDatabaseIfNotExists = async (DB_HOST, DB_USER, DB_PASS, DB_NAME) => 
     }
 };
 
-module.exports = createDatabaseIfNotExists;
+export default createDatabaseIfNotExists;
