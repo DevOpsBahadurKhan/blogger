@@ -1,6 +1,11 @@
 // /src/middlewares/verifyAccess.js
 
-module.exports = function verifyAccess(action, resource, possession = 'any') {
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export default function verifyAccess(action, resource, possession = 'any') {
     return (req, res, next) => {
         try {
             const role = req.user?.role;

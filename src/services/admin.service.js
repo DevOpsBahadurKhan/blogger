@@ -1,16 +1,39 @@
 import adminRepo from '../repositories/admin.repository.js';
-import userRepo from '../repositories/user.repository.js'; // You forgot to import this
 
-export const updateRole = async () => {
-  return await userRepo.getPupdateRolerofile(); // ⛔ Typo here — likely wrong method name
-};
+class AdminService {
+  /**
+   * @Update Role
+   */
+  async updateRole(id, data) {
+    const role = await adminRepo.findRoleById(id);
+    if (!role) {
+      throw new Error('Role not found');
+    }
 
-export const createRole = async (name) => {
-  // Optional: validate role name, check for duplicates, etc.
-  return await adminRepo.createRole(name);
-};
+    // Prevent renaming to existing role name
+    const exists = await adminRepo.findRoleByName(data.name);
+    if (exists && exists.id !== parseInt(id)) {
+      throw new Error('Role name already exists');
+    }
 
-export const createPermission = async (data) => {
-  // Optional: validate role existence, check duplicates, etc.
-  return await adminRepo.createPermission(data);
-};
+    return await adminRepo.updateRole(id, data);
+  }
+
+  /**
+   * @Create Role
+   */
+  async createRole(name) {
+    // Optional: validate name format, check for duplicates
+    return await adminRepo.createRole(name);
+  }
+
+  /**
+   * @Create Permission
+   */
+  async createPermission(data) {
+    // Optional: validate role existence, check for duplicates
+    return await adminRepo.createPermission(data);
+  }
+}
+
+export default new AdminService();

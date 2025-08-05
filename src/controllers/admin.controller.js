@@ -1,13 +1,14 @@
-import * as adminService from '../services/admin.service.js';
+import adminService from '../services/admin.service.js';
 
 /**
- * Admin user can updateRole.
+ * @Admin user can updateRole.
  */
 export const updateRole = async (req, res, next) => {
-    // Implementation placeholder — update this if needed
     try {
-        // Example: const result = await adminService.updateRole(req.body);
-        res.status(200).json({ message: 'updateRole not implemented yet' });
+        const { userId } = req.params;
+        const { role_id } = req.body;
+        const updated = await adminService.updateRole(userId, role_id);
+        res.json({ message: 'Role updated', role: updated });
     } catch (err) {
         next(err);
     }

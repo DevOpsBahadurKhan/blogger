@@ -4,29 +4,32 @@ const router = express.Router();
 import { updateUserRoleValidator } from '../validators/validator.js';
 
 import passportJWT from '../middlewares/passportJWT.js';
-const jwtMiddleware = passportJWT(); // ✅ renamed instance
 
 import verifyAccess from '../middlewares/verifyAccess.js';
 import * as controller from '../controllers/admin.controller.js';
 
+
 router.patch(
-    '/role/:userId',
+    '/roles/:id',
+    passportJWT().authenticate(),
     updateUserRoleValidator,
-    jwtMiddleware.authenticate(),
-    verifyAccess('update', 'user', 'any'),
+    verifyAccess('update', 'role', 'any'),
     controller.updateRole
 );
 
+
+
 router.post(
     '/roles',
-    jwtMiddleware.authenticate(),
+    passportJWT().authenticate(),
     verifyAccess('create', 'role', 'any'),
     controller.createRole
 );
 
+
 router.post(
     '/permissions',
-    jwtMiddleware.authenticate(),
+    passportJWT().authenticate(),
     verifyAccess('create', 'permission', 'any'),
     controller.createPermission
 );

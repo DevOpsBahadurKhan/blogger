@@ -1,3 +1,4 @@
+// config/db.config.js
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
 import logger from '../utils/logger.js';
@@ -26,7 +27,7 @@ const connectDB = async () => {
         await sequelize.authenticate();
         logger.info('✅ Database connected!');
 
-        await sequelize.sync({ alter: true, force: false });
+        await sequelize.sync({ alter: false, force: false });
         logger.info('📦 All models synchronized (auto-migrated).');
     } catch (error) {
         logger.error('❌ Unable to connect to the database:', error);

@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
         },
         {
             tableName: 'roles',
-            timestamps: false,
+            timestamps: true,
         }
     );
 

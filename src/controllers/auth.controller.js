@@ -5,7 +5,11 @@ export const register = async (req, res, next) => {
     try {
         validationHandler(req);
 
-        const { user, accessToken, refreshToken } = await authService.register(req.body);
+        //Sanitize input – pick only safe fields
+        const { username, email, password } = req.body;
+
+        const { user, accessToken, refreshToken } = await authService.register({ username, email, password });
+
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,

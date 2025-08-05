@@ -60,4 +60,4 @@ class AuthService {
     }
 }
 
-export default new AuthService(); // singleton instance
+export default new AuthService();

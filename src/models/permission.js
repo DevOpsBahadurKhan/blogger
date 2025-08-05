@@ -20,7 +20,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       tableName: 'permissions',
-      timestamps: false,
+      timestamps: true,
     }
   );
 
