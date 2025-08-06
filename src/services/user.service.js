@@ -1,9 +1,15 @@
-import * as userRepo from '../repositories/user.repository.js';
+import userRepo from '../repositories/user.repository.js';
 
-export const getProfile = async () => {
-  return await userRepo.getProfile();
-};
+class UserService {
 
-export const me = async (id) => {
-  return await userRepo.me(id);
-};
+  async getProfile() {
+    return await userRepo.getProfile();
+  };
+
+
+  async me(id) {
+    return await userRepo.me(id);
+  };
+}
+
+export default new UserService();

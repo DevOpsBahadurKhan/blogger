@@ -1,5 +1,16 @@
 import db from '../models/index.js';
 const { Post } = db;
-export const createPost = async (data) => {
-    return await Post.create(data);
-};
+
+class PostRepository {
+
+    async createPost(data) {
+        return await Post.create(data);
+    };
+
+    async getPosts() {
+        return await Post.findAll();
+    };
+
+}
+
+export default new PostRepository();

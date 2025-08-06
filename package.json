@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed": "npx sequelize-cli db:seed:all --env development",
+    "seed:undo": "npx sequelize-cli db:seed:undo:all --env development"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,4 @@
-import * as userService from '../services/user.service.js';
+import userService from '../services/user.service.js';
 // import validationHandler from '../validators/validationHandler.js'; // Uncomment when needed
 
 export const getProfile = async (req, res, next) => {

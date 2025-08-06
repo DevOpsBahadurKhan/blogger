@@ -1,21 +1,21 @@
-import userRepo from '../repositories/auth.repository.js';
+import authRepo from '../repositories/auth.repository.js';
 import * as jwtUtil from '../utils/jwt.util.js';
 
 class AuthService {
     async register(userData) {
-        const existingUser = await userRepo.findByEmail(userData.email);
+        const existingUser = await authRepo.findByEmail(userData.email);
         if (existingUser) {
             const error = new Error('Email already used');
             error.statusCode = 403;
             throw error;
         }
 
-        let user = await userRepo.register(userData);
+        let user = await authRepo.register(userData);
 
         const accessToken = jwtUtil.generateAccessToken(user);
         const refreshToken = jwtUtil.generateRefreshToken(user);
 
-        user = await userRepo.updateRefreshToken(user.id, refreshToken);
+        user = await authRepo.updateRefreshToken(user.id, refreshToken);
 
         return {
             user: {
@@ -29,7 +29,7 @@ class AuthService {
     }
 
     async login(userData) {
-        const user = await userRepo.findByEmail(userData.email);
+        const user = await authRepo.findByEmail(userData.email);
         if (!user) {
             const error = new Error('Wrong Credentials');
             error.statusCode = 401;
@@ -46,7 +46,7 @@ class AuthService {
         const accessToken = jwtUtil.generateAccessToken(user);
         let refreshToken = jwtUtil.generateRefreshToken(user);
 
-        refreshToken = await userRepo.updateRefreshToken(user.id, refreshToken);
+        refreshToken = await authRepo.updateRefreshToken(user.id, refreshToken);
 
         return {
             user: {

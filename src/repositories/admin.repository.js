@@ -1,7 +1,21 @@
 import db from '../models/index.js';
-const { Role, Permission } = db;
+const { User, Role, Permission } = db;
 
 class AdminRepository {
+
+
+    async assignRoleToUser(userId, roleId) {
+        const user = await User.findByPk(userId);
+        const role = await Role.findByPk(roleId);
+
+        if (!user || !role) throw new Error('Invalid user or role');
+
+        user.role_id = roleId;
+        await user.save();
+
+        return user;
+    }
+
     // Create a new role
     async createRole(name) {
         return await Role.create({ name });

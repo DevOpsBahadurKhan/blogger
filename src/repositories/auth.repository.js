@@ -1,7 +1,7 @@
 import db from '../models/index.js';
 const { User } = db;
 
-class UserRepository {
+class AuthRepository {
     async findByEmail(email) {
         return await User.findOne({ where: { email } });
     }
@@ -19,4 +19,4 @@ class UserRepository {
     }
 }
 
-export default new UserRepository();
+export default new AuthRepository();
