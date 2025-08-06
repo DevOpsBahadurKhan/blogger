@@ -1,32 +1,38 @@
 import AccessControl from 'accesscontrol';
 import db from '../models/index.js';
-const { Role, Permission } = db; // Ensure this file exports both models
+
+const { Role, Permission } = db;
 
 export default async function loadAccessControl() {
   const grantsObject = {};
 
-  // Load all permissions with associated roles
-  const permissions = await Permission.findAll({ include: [Role] });
+  // Load all roles with their permissions
+  const roles = await Role.findAll({
+    include: [Permission],
+  });
 
-  for (const perm of permissions) {
-    const roleName = perm.Role.name; // assuming Role is associated in Permission model
-    const { resource, action, possession } = perm;
-    const actionPossession = `${action}${capitalize(possession)}`; // e.g., readOwn
+  for (const role of roles) {
+    const roleName = role.name;
 
-    if (!grantsObject[roleName]) {
-      grantsObject[roleName] = {};
+    for (const perm of role.Permissions) {
+      const { resource, action, possession } = perm;
+      const actionPossession = `${action}${capitalize(possession)}`;
+
+      if (!grantsObject[roleName]) {
+        grantsObject[roleName] = {};
+      }
+
+      if (!grantsObject[roleName][resource]) {
+        grantsObject[roleName][resource] = [];
+      }
+
+      grantsObject[roleName][resource].push(actionPossession);
     }
-
-    if (!grantsObject[roleName][resource]) {
-      grantsObject[roleName][resource] = [];
-    }
-
-    grantsObject[roleName][resource].push(actionPossession);
   }
 
+  // Convert grants object into AccessControl instance
   const ac = new AccessControl();
 
-  // Build grants in AccessControl instance
   for (const role in grantsObject) {
     for (const resource in grantsObject[role]) {
       for (const action of grantsObject[role][resource]) {

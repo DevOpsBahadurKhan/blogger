@@ -23,8 +23,16 @@ class AdminRepository {
 
     // Create a new permission
     async createPermission({ role_id, resource, action, possession }) {
-        return await Permission.create({ role_id, resource, action, possession });
+        const permission = await Permission.create({ resource, action, possession });
+
+        const role = await Role.findByPk(role_id);
+        if (!role) throw new Error('Role not found');
+
+        await role.addPermission(permission); // create entry in role_permissions
+
+        return permission;
     }
+
 
     // Find role by ID
     async findRoleById(id) {
