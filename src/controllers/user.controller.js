@@ -1,5 +1,6 @@
 import userService from '../services/user.service.js';
 // import validationHandler from '../validators/validationHandler.js'; // Uncomment when needed
+import logger from '../utils/logger.js';
 
 export const getProfile = async (req, res, next) => {
     try {

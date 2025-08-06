@@ -7,7 +7,7 @@ package-lock.json
 
 # dotenv
 .env
-.env.*   # like .env.development, .env.test etc.
+# .env.*   # like .env.development, .env.test etc.
 
 # Logs
 logs/

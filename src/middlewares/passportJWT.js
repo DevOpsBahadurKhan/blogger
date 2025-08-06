@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import db from '../models/index.js';
 const { User, Role } = db;
+import logger from '../utils/logger.js';
 
 const params = {
   secretOrKey: process.env.jwtSecret,
@@ -24,7 +25,11 @@ export default () => {
       // ✅ Attach plain role name for access control
       user.role = user.role?.name;
 
-      console.log('[Auth] User loaded with role:', user.role);
+      logger.info('User authenticated', {
+        userId: user.id,
+        role: user.role,
+        email: user.email
+      });
 
       return done(null, user);
     } catch (err) {

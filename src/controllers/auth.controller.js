@@ -1,5 +1,6 @@
 import authService from '../services/auth.service.js';
 import validationHandler from '../validators/validationHandler.js';
+import logger from '../utils/logger.js';
 
 export const register = async (req, res, next) => {
     try {

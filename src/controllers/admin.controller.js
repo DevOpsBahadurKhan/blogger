@@ -1,4 +1,5 @@
 import adminService from '../services/admin.service.js';
+import logger from '../utils/logger.js';
 
 /**
  * @Admin user can updateRole.
@@ -18,6 +19,9 @@ export const createRole = async (req, res, next) => {
     try {
         const { name } = req.body;
         const role = await adminService.createRole(name);
+        
+        logger.info({ message: 'Role created', role });
+
         res.status(201).json({ message: 'Role created', role });
     } catch (err) {
         next(err);
