@@ -6,9 +6,9 @@ import logger from '../utils/logger.js';
  */
 export const updateRole = async (req, res, next) => {
     try {
-        const { userId } = req.params;
+        const { user_id } = req.params;
         const { role_id } = req.body;
-        const updated = await adminService.updateRole(userId, role_id);
+        const updated = await adminService.updateRole(user_id, role_id);
         res.json({ message: 'Role updated', role: updated });
     } catch (err) {
         next(err);
@@ -19,11 +19,13 @@ export const createRole = async (req, res, next) => {
     try {
         const { name } = req.body;
         const role = await adminService.createRole(name);
-        
+
         logger.info({ message: 'Role created', role });
 
-        res.status(201).json({ message: 'Role created', role });
+        res.send(role);
+
     } catch (err) {
+        logger.error(err);
         next(err);
     }
 };

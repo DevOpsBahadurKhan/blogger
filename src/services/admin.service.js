@@ -2,9 +2,9 @@ import adminRepo from '../repositories/admin.repository.js';
 import logger from '../utils/logger.js';
 
 class AdminService {
-  /**
-   * @Update Role
-   */
+  
+  /** @UpdateRole */
+  
   async updateRole(id, data) {
     const role = await adminRepo.findRoleById(id);
     if (!role) {
@@ -24,7 +24,7 @@ class AdminService {
   }
 
   
-  /**  @Create Role */
+  /** @CreateRole */
   async createRole(name) {
     // Optional: validate name format, check for duplicates
     return await adminRepo.createRole(name);

@@ -21,6 +21,7 @@ export const register = async (req, res, next) => {
 
         res.json({ user, accessToken });
     } catch (err) {
+        logger.error(err)
         next(err);
     }
 };
@@ -39,7 +40,8 @@ export const login = async (req, res, next) => {
         });
 
         res.json({ user, accessToken });
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(err)
+        next(err);
     }
 };

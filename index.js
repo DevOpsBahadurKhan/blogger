@@ -1,5 +1,7 @@
+// Load environment variables
+import 'dotenv/config';
 import express from 'express';
-import dotenv from 'dotenv';
+
 import { connectDB } from './src/config/db.config.js';
 import logger from './src/utils/logger.js';
 import userRoutes from './src/routes/user.routes.js';
@@ -10,8 +12,7 @@ import passportJWT from './src/middlewares/passportJWT.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 import loadAccessControl from './src/utils/accessControl.js';
 
-// Load environment variables
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
