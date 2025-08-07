@@ -1,3 +1,4 @@
+// blogger\src\controllers\admin.controller.js
 import adminService from '../services/admin.service.js';
 import logger from '../utils/logger.js';
 
@@ -34,6 +35,19 @@ export const createPermission = async (req, res, next) => {
     try {
         const permission = await adminService.createPermission(req.body);
         res.status(201).json({ message: 'Permission created', permission });
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+
+export const assignRole = async (req, res, next) => {
+    try {
+        const { user_id } = req.params;
+        const { role_id } = req.body;
+        const user = await adminService.assignRole(user_id, role_id);
+        res.json({ message: 'Role assigned', user });
     } catch (err) {
         next(err);
     }

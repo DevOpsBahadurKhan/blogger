@@ -1,28 +1,34 @@
 // /src/middlewares/verifyAccess.js
-
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import logger from '../utils/logger.js';
 
 export default function verifyAccess(action, resource, possession = 'any') {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         try {
             const role = req.user?.role;
             if (!role) return res.status(403).json({ message: 'Missing role' });
 
-            const methodName = `${action}${capitalize(possession)}`;
-            const permission = global.ac.can(role)[methodName](resource);
+            const allowed = await global.ac.enforce(role, resource, action, possession);
 
-            if (!permission.granted) {
+            if (!allowed) {
                 return res.status(403).json({ message: 'Access Denied' });
             }
 
-            req.permission = permission;
+            req.permission = { granted: true }; // optional for consistency
             next();
         } catch (err) {
-            console.error('[AccessControl Error]', err.message);
-            res.status(500).json({ message: 'Internal Server Error' });
+
+            logger.info('[AccessControl]', {
+                role,
+                resource,
+                action,
+                possession,
+                user_id: req.user?.id,
+                ip: req.ip,
+                path: req.originalUrl,
+                method: req.method,
+            });
+
+            next(err)
         }
     };
-};
+}

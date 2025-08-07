@@ -1,8 +1,8 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import logger from '../utils/logger.js';
 import db from '../models/index.js';
 const { User, Role } = db;
-import logger from '../utils/logger.js';
 
 const params = {
   secretOrKey: process.env.jwtSecret,

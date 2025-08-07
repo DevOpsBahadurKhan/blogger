@@ -12,8 +12,6 @@ import passportJWT from './src/middlewares/passportJWT.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 import loadAccessControl from './src/utils/accessControl.js';
 
-
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -28,10 +26,9 @@ app.use('/api', adminRoutes);
 app.use(errorHandler);
 
 // Server start with DB connect
-
 await connectDB();
-const ac = await loadAccessControl();
-global.ac = ac;
+await loadAccessControl(); // ✅ loads and sets global.ac inside
+
 app.listen(PORT, () => {
-    logger.info(`🚀 Server running at http://localhost:${PORT}`);
+  logger.info(`🚀 Server running at http://localhost:${PORT}`);
 });

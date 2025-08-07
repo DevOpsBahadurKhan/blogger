@@ -1,49 +1,32 @@
-import AccessControl from 'accesscontrol';
+// /src/utils/accessControl.js
+import { newEnforcer } from 'casbin';
+import path from 'path';
 import db from '../models/index.js';
 
 const { Role, Permission } = db;
 
-export default async function loadAccessControl() {
-  const grantsObject = {};
+let enforcerInstance = null;
 
-  // Load all roles with their permissions
-  const roles = await Role.findAll({
-    include: [Permission],
-  });
+export default async function loadAccessControl() {
+  const modelPath = path.resolve('src/config/rbac_model.conf');
+  const enforcer = await newEnforcer(modelPath);
+
+  // Load roles with permissions
+  const roles = await Role.findAll({ include: [Permission] });
 
   for (const role of roles) {
     const roleName = role.name;
 
     for (const perm of role.Permissions) {
       const { resource, action, possession } = perm;
-      const actionPossession = `${action}${capitalize(possession)}`;
-
-      if (!grantsObject[roleName]) {
-        grantsObject[roleName] = {};
-      }
-
-      if (!grantsObject[roleName][resource]) {
-        grantsObject[roleName][resource] = [];
-      }
-
-      grantsObject[roleName][resource].push(actionPossession);
+      await enforcer.addPolicy(roleName, resource, action, possession);
     }
   }
 
-  // Convert grants object into AccessControl instance
-  const ac = new AccessControl();
+  // Optional: define role hierarchy if needed
+  // await enforcer.addGroupingPolicy('admin', 'editor');
 
-  for (const role in grantsObject) {
-    for (const resource in grantsObject[role]) {
-      for (const action of grantsObject[role][resource]) {
-        ac.grant(role)[action](resource);
-      }
-    }
-  }
-
-  return ac;
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  enforcerInstance = enforcer;
+  global.ac = enforcer;
+  return enforcer;
 }

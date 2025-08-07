@@ -1,10 +1,11 @@
+// blogger\src\services\admin.service.js
 import adminRepo from '../repositories/admin.repository.js';
 import logger from '../utils/logger.js';
 
 class AdminService {
-  
+
   /** @UpdateRole */
-  
+
   async updateRole(id, data) {
     const role = await adminRepo.findRoleById(id);
     if (!role) {
@@ -23,14 +24,22 @@ class AdminService {
     return await adminRepo.updateRole(id, data);
   }
 
-  
+
   /** @CreateRole */
   async createRole(name) {
     // Optional: validate name format, check for duplicates
     return await adminRepo.createRole(name);
   }
 
- 
+
+  async assignRole(userId, roleId) {
+    const updatedUser = await adminRepo.assignRoleToUser(userId, roleId);
+    logger.info(`Assigned role ${roleId} to user ${userId}`);
+    return updatedUser;
+  }
+
+
+
 }
 
 export default new AdminService();

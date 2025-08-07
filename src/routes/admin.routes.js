@@ -34,4 +34,12 @@ router.post(
     controller.createPermission
 );
 
+
+router.patch(
+    '/users/:user_id/role',
+    passportJWT().authenticate(),
+    verifyAccess('update', 'user', 'any'), // You may change 'user' to 'role' if needed
+    controller.assignRole
+);
+
 export default router;

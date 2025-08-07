@@ -2,6 +2,7 @@ import db from '../models/index.js';
 const { User } = db;
 
 class AuthRepository {
+
     async findByEmail(email) {
         return await User.findOne({ where: { email } });
     }

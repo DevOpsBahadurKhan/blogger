@@ -3,7 +3,7 @@ import * as jwtUtil from '../utils/jwt.util.js';
 import logger from '../utils/logger.js';
 
 class AuthService {
-    
+
     /** @register New User */
     async register(userData) {
         const existingUser = await authRepo.findByEmail(userData.email);
@@ -15,7 +15,12 @@ class AuthService {
         }
 
         let user = await authRepo.register(userData);
-        logger.info(`New user registered: ${user.email}`, { userId: user.id });
+        logger.info(`[Auth] New user registered`, {
+            user_id: user.id,
+            email: user.email,
+            role: user.role?.name || 'reader', // optional chaining
+            context: 'register',
+        });
 
         const accessToken = jwtUtil.generateAccessToken(user);
         const refreshToken = jwtUtil.generateRefreshToken(user);
@@ -37,7 +42,11 @@ class AuthService {
     async login(userData) {
         const user = await authRepo.findByEmail(userData.email);
         if (!user) {
-            logger.warn(`Login failed: No user found with email: ${userData.email}`);
+            logger.warn(`[Auth] Login failed: Email not found`, {
+                email: userData.email,
+                context: 'login',
+            });
+
             const error = new Error('Wrong Credentials');
             error.statusCode = 401;
             throw error;
@@ -45,7 +54,12 @@ class AuthService {
 
         const validPassword = await user.validPassword(userData.password);
         if (!validPassword) {
-            logger.warn(`Login failed: Invalid password for email: ${userData.email}`);
+            logger.warn(`[Auth] Login failed: Invalid password`, {
+                email: user.email,
+                userId: user.id,
+                context: 'login',
+            });
+
             const error = new Error('Wrong Credentials');
             error.statusCode = 401;
             throw error;
@@ -56,7 +70,12 @@ class AuthService {
 
         refreshToken = await authRepo.updateRefreshToken(user.id, refreshToken);
 
-        logger.info(`User logged in: ${user.email}`, { userId: user.id });
+        logger.info(`[Auth] User logged in`, {
+            userId: user.id,
+            email: user.email,
+            role: user.role?.name || 'reader',
+            context: 'login',
+        });
 
         return {
             user: {
