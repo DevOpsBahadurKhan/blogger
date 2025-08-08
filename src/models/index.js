@@ -5,8 +5,9 @@ import { sequelize } from '../config/db.config.js';
 import defineUser from './user.model.js';
 import definePost from './post.model.js';
 import defineComment from './comment.model.js';
-import defineRole from './role.js';
-import definePermission from './permission.js';
+import defineRole from './role.model.js';
+import definePermission from './permission.model.js';
+import defineRolePermission from './rolePermission.model.js';
 
 const db = {};
 
@@ -16,6 +17,7 @@ db.Post = definePost(sequelize, DataTypes);
 db.Comment = defineComment(sequelize, DataTypes);
 db.Role = defineRole(sequelize, DataTypes);
 db.Permission = definePermission(sequelize, DataTypes);
+db.RolePermission = defineRolePermission(sequelize, DataTypes);
 
 // Run associations
 Object.values(db).forEach((model) => {

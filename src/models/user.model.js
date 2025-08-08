@@ -31,11 +31,7 @@ export default (sequelize, DataTypes) => {
             role_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                defaultValue: 3,
-                references: {
-                    model: 'roles',
-                    key: 'id',
-                },
+                defaultValue: 3
             },
         },
         {
@@ -45,8 +41,7 @@ export default (sequelize, DataTypes) => {
             hooks: {
                 beforeSave: async (user) => {
                     if (user.changed('password')) {
-                        const salt = await bcrypt.genSalt(10);
-                        user.password = await bcrypt.hash(user.password, salt);
+                        user.password = await bcrypt.hash(user.password, 10);
                     }
                 },
             },
@@ -55,7 +50,7 @@ export default (sequelize, DataTypes) => {
 
     // Instance method for password validation
     User.prototype.validPassword = async function (candidatePassword) {
-        return await bcrypt.compare(candidatePassword, this.password);
+        return bcrypt.compare(candidatePassword, this.password);
     };
 
     // Associations

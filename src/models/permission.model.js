@@ -27,7 +27,7 @@ export default (sequelize, DataTypes) => {
   Permission.associate = (models) => {
   
     Permission.belongsToMany(models.Role, {
-      through: 'role_permissions',
+      through: models.RolePermission,
       foreignKey: 'permission_id',
     });
   };

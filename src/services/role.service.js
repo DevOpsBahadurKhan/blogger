@@ -3,7 +3,7 @@ import roleRepo from '../repositories/role.repository.js';
 class RoleService {
     
     async createRole(name) {
-        return await roleRepo.create(name);
+        return await roleRepo.createRole(name);
     }
 
     async updateRole(id, data) {

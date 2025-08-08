@@ -2,7 +2,8 @@ import db from '../models/index.js';
 const { Role } = db;
 
 class RoleRepository {
-    async create(name) {
+
+    async createRole(name) {
         return await Role.create({ name });
     }
 

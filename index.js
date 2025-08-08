@@ -9,6 +9,7 @@ import postRoutes from './src/routes/post.routes.js';
 import authRoutes from './src/routes/auth.routes.js';
 import adminRoutes from './src/routes/admin.routes.js';
 import permissionRoutes from './src/routes/permission.routes.js';
+import roleRoutes from './src/routes/role.routes.js';
 import passportJWT from './src/middlewares/passportJWT.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 import loadAccessControl from './src/utils/accessControl.js';
@@ -25,6 +26,7 @@ app.use('/api', postRoutes);
 app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', permissionRoutes);
+app.use('/api', roleRoutes);
 app.use(errorHandler);
 
 // Server start with DB connect
