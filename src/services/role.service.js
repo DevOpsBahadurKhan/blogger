@@ -1,6 +1,7 @@
 import roleRepo from '../repositories/role.repository.js';
 
 class RoleService {
+    
     async createRole(name) {
         return await roleRepo.create(name);
     }
@@ -16,6 +17,7 @@ class RoleService {
 
         return await roleRepo.update(id, data);
     }
+
 }
 
 export default new RoleService();

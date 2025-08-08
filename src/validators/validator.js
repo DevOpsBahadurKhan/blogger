@@ -33,4 +33,6 @@ export const updateUserRoleValidator = [
   body('role_id')
     .isInt().withMessage('Role ID must be a valid number')
 
+  
+
 ];

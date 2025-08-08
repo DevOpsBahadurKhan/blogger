@@ -1,12 +1,20 @@
 import db from '../models/index.js';
-const { Permission } = db;
+const { Permission, Role } = db;
 
 class PermissionRepository {
 
+    async createPermission({ role_id, resource, action, possession }) {
+        const permission = await Permission.create({ resource, action, possession });
 
-    async create(data) {
-        return await Permission.create(data);
+        const role = await Role.findByPk(role_id);
+        if (!role) throw new Error('Role not found');
+
+        // create entry in role_permissions
+        await role.addPermission(permission); 
+
+        return permission;
     }
+
 }
 
 export default new PermissionRepository();
