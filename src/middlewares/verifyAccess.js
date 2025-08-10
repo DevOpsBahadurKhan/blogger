@@ -1,11 +1,12 @@
-// /src/middlewares/verifyAccess.js
 import logger from '../utils/logger.js';
 
 export default function verifyAccess(action, resource, possession = 'any') {
     return async (req, res, next) => {
         try {
-            const role = req.user?.role;
-            if (!role) return res.status(403).json({ message: 'Missing role' });
+            const role = req.user?.role; // string name
+            if (!role) {
+                return res.status(403).json({ message: 'Missing role' });
+            }
 
             const allowed = await global.ac.enforce(role, resource, action, possession);
 
@@ -13,12 +14,11 @@ export default function verifyAccess(action, resource, possession = 'any') {
                 return res.status(403).json({ message: 'Access Denied' });
             }
 
-            req.permission = { granted: true }; // optional for consistency
+            req.permission = { granted: true };
             next();
         } catch (err) {
-
             logger.info('[AccessControl]', {
-                role,
+                role: req.user?.role,
                 resource,
                 action,
                 possession,
@@ -27,8 +27,7 @@ export default function verifyAccess(action, resource, possession = 'any') {
                 path: req.originalUrl,
                 method: req.method,
             });
-
-            next(err)
+            next(err);
         }
     };
 }

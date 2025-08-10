@@ -6,7 +6,13 @@ import logger from '../utils/logger.js';
 
 export const createPermission = async (req, res, next) => {
     try {
-        const permission = await permissionService.createSinglePermission({ role_id, action, resource, possession });
+        const { action, resource, possession } = req.body;
+        const permission = await permissionService.createSinglePermission({
+            user: req.user,
+            action,
+            resource,
+            possession
+        });
         logger.info('Permission created',
             { ip: req.ip });
 

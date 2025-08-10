@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import logger from '../utils/logger.js';
 import db from '../models/index.js';
+
 const { User, Role } = db;
 
 const params = {
@@ -16,18 +17,21 @@ export default () => {
         include: {
           model: Role,
           as: 'role',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
       });
 
       if (!user) return done(new Error('User not found'), null);
 
-      // ✅ Attach plain role name for access control
-      user.role = user.role?.name;
+      // Store roleId before overwriting role with name
+      const roleObj = user.role; 
+      user.roleId = roleObj?.id;
+      user.role = roleObj?.name; // keep string for Casbin
 
       logger.info('User authenticated', {
         userId: user.id,
         role: user.role,
+        roleId: user.roleId,
         email: user.email
       });
 

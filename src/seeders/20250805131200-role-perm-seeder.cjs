@@ -55,14 +55,16 @@ module.exports = {
       { role: 'admin', resource: 'permission', action: 'read', possession: 'any' },
       { role: 'admin', resource: 'permission', action: 'update', possession: 'any' },
       { role: 'admin', resource: 'permission', action: 'delete', possession: 'any' },
+      { role: 'admin', resource: 'post', action: 'create', possession: 'any' },
+      { role: 'admin', resource: 'post', action: 'update', possession: 'any' },
+      { role: 'admin', resource: 'post', action: 'read', possession: 'any' },
+      { role: 'admin', resource: 'role_permissions', action: 'assign', possession: 'any' },
 
       // author
-      { role: 'author', resource: 'profile', action: 'update', possession: 'any' },
+      { role: 'author', resource: 'user', action: 'update', possession: 'own' },
 
       // reader
-      { role: 'reader', resource: 'post', action: 'create', possession: 'own' },
-      { role: 'reader', resource: 'post', action: 'update', possession: 'own' },
-      { role: 'reader', resource: 'post', action: 'read', possession: 'any' },
+        { role: 'reader', resource: 'post', action: 'read', possession: 'any' },
     ];
 
     const role_permissions = rolePermMappings.map(({ role, resource, action, possession }) => {

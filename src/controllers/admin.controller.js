@@ -2,52 +2,16 @@
 import adminService from '../services/admin.service.js';
 import logger from '../utils/logger.js';
 
-/**
- * @Admin user can updateRole.
- */
-export const updateRole = async (req, res, next) => {
+
+
+export const assignPermissionToRole = async (req, res, next) => {
     try {
-        const { user_id } = req.params;
-        const { role_id } = req.body;
-        const updated = await adminService.updateRole(user_id, role_id);
-        res.json({ message: 'Role updated', role: updated });
-    } catch (err) {
-        next(err);
-    }
-};
+        const { roleId, permissionId } = req.params
 
-export const createRole = async (req, res, next) => {
-    try {
-        const { name } = req.body;
-        const role = await adminService.createRole(name);
+        await adminService.assignPermissionToRole({ meId: req.user.id, roleId, permissionId });
 
-        logger.info({ message: 'Role created', role });
-
-        res.send(role);
-
-    } catch (err) {
-        logger.error(err);
-        next(err);
-    }
-};
-
-export const createPermission = async (req, res, next) => {
-    try {
-        const permission = await adminService.createPermission(req.body);
-        res.status(201).json({ message: 'Permission created', permission });
-    } catch (err) {
-        next(err);
-    }
-};
-
-
-
-export const assignRole = async (req, res, next) => {
-    try {
-        const { user_id } = req.params;
-        const { role_id } = req.body;
-        const user = await adminService.assignRole(user_id, role_id);
-        res.json({ message: 'Role assigned', user });
+        logger.info('Permission assigned successfully');
+        res.send({message:'Permission assigned successfully'});
     } catch (err) {
         next(err);
     }

@@ -4,12 +4,12 @@ import logger from '../utils/logger.js';
 
 class PermissionService {
 
-    async createSinglePermission({ role_id, resource, action, possession }) {
-        logger.info(`Creating single permission for role_id=${role_id}`);
-
+    async createSinglePermission({ user, resource, action, possession }) {
+        
         try {
+            const role_id = user.id;
             // Validate role
-            const role = await permissionRepo.findByRoleId(role_id);
+            const role = await permissionRepo.findByRoleId(user.id);
             if (!role) {
                 logger.warn(`Role not found for role_id=${role_id}`);
                 throw new Error('Role not found');
