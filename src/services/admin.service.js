@@ -4,12 +4,13 @@ import logger from '../utils/logger.js';
 
 // controllers/rolePermissionController.js
 import db from '../models/index.js';
-const { Role, Permission, RolePermission } = db;
+const { User, Role, Permission, RolePermission } = db;
 
 
 class AdminService {
 
-  async assignRole(userId, roleId) {
+  // every user has default role 'reader', just need to update that 
+  async assignRoleToUser(userId, roleId) {
     const updatedUser = await adminRepo.assignRoleToUser(userId, roleId);
     logger.info(`Assigned role ${roleId} to user ${userId}`);
     return updatedUser;
@@ -17,31 +18,41 @@ class AdminService {
 
 
   async assignPermissionToRole(params) {
-    const { meId: role_id, roleId, permissionId } = params;
-console.log({ meId: role_id, roleId, permissionId });
+    const { meId, roleId, permissionId } = params;
 
-    // 1. Check if target role exists
-    const role = await Role.findByPk(role_id);
+    // Get the logged-in user's role_id
+    const me = await User.findByPk(meId);
+    if (!me) {
+      logger.warn({ message: 'Authenticated user not found' });
+      throw new Error('Authenticated user not found');
+    }
+    const currentUserRoleId = me.role_id;
+
+    // 1. Check target role exists
+    const role = await Role.findByPk(roleId);
     if (!role) {
-      return res.status(404).json({ message: 'Role not found' });
+      logger.warn({ message: 'Target role not found' });
+      throw new Error('Target role not found');
     }
 
-    // 2. Check if target permission exists checkPermissionExist(){ return await Permission.findByPk(permissionId);}
+    // 2. Check target permission exists
     const permission = await Permission.findByPk(permissionId);
     if (!permission) {
-      return res.status(404).json({ message: 'Permission not found' });
+      logger.warn({ message: 'Permission not found' });
+      throw new Error('Permission not found');
     }
 
-    // 3. Security check — admin must have this permission
+    // 3. Check the admin's own permissions
     const adminHasPermission = await RolePermission.findOne({
       where: {
-        role_id: role_id, // ✅ fixed camelCase to match Passport
+        role_id: currentUserRoleId,
         permission_id: permissionId
       }
     });
 
     if (!adminHasPermission) {
-      return res.status(403).json({ message: 'You cannot assign a permission you do not have' });
+      logger.error({ message: 'You cannot assign a permission you do not have' });
+      throw new Error('You cannot assign a permission you do not have');
     }
 
     // 4. Check if already assigned
@@ -50,7 +61,8 @@ console.log({ meId: role_id, roleId, permissionId });
     });
 
     if (alreadyAssigned) {
-      return res.status(409).json({ message: 'Permission already assigned to this role' });
+      logger.warn({ message: 'Permission already assigned to this role' });
+      throw new Error('Permission already assigned to this role');
     }
 
     // 5. Assign permission
@@ -59,6 +71,7 @@ console.log({ meId: role_id, roleId, permissionId });
       permission_id: permissionId
     });
   }
+
 
 }
 

@@ -2,18 +2,27 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // 1️⃣ Insert roles
+    // 1️⃣ Insert roles with timestamps
     const roles = [
       { id: 1, name: 'admin' },
       { id: 2, name: 'author' },
       { id: 3, name: 'reader' },
     ];
-    await queryInterface.bulkInsert('Roles', roles, { ignoreDuplicates: true });
+    await queryInterface.bulkInsert(
+      'Roles',
+      roles.map(r => ({
+        ...r,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })),
+      { ignoreDuplicates: true }
+    );
 
-    // 2️⃣ Insert permissions (❌ no role_id here)
+    // 2️⃣ Insert permissions with timestamps (added missing ones)
     const permissions = [
       { resource: 'user', action: 'create', possession: 'any' },
       { resource: 'user', action: 'update', possession: 'any' },
+      { resource: 'user', action: 'update', possession: 'own' }, // added
       { resource: 'user', action: 'delete', possession: 'any' },
 
       { resource: 'role', action: 'create', possession: 'any' },
@@ -29,10 +38,22 @@ module.exports = {
       { resource: 'profile', action: 'update', possession: 'any' },
 
       { resource: 'post', action: 'create', possession: 'own' },
+      { resource: 'post', action: 'create', possession: 'any' }, // added
       { resource: 'post', action: 'update', possession: 'own' },
+      { resource: 'post', action: 'update', possession: 'any' }, // added
       { resource: 'post', action: 'read', possession: 'any' },
+
+      { resource: 'role_permissions', action: 'assign', possession: 'any' }, // added
     ];
-    await queryInterface.bulkInsert('Permissions', permissions, { ignoreDuplicates: true });
+    await queryInterface.bulkInsert(
+      'Permissions',
+      permissions.map(p => ({
+        ...p,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })),
+      { ignoreDuplicates: true }
+    );
 
     // 3️⃣ Map role-permission relationships
     const [roleRows] = await queryInterface.sequelize.query('SELECT id, name FROM Roles');
@@ -64,24 +85,29 @@ module.exports = {
       { role: 'author', resource: 'user', action: 'update', possession: 'own' },
 
       // reader
-        { role: 'reader', resource: 'post', action: 'read', possession: 'any' },
+      { role: 'reader', resource: 'post', action: 'read', possession: 'any' },
     ];
 
-    const role_permissions = rolePermMappings.map(({ role, resource, action, possession }) => {
-      const roleId = roleMap[role];
-      const permission = permRows.find(
-        p => p.resource === resource && p.action === action && p.possession === possession
-      );
-      if (!roleId || !permission) return null;
-      return {
-        role_id: roleId,
-        permission_id: permission.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-    }).filter(Boolean);
+    const role_permissions = rolePermMappings
+      .map(({ role, resource, action, possession }) => {
+        const roleId = roleMap[role];
+        const permission = permRows.find(
+          p => p.resource === resource && p.action === action && p.possession === possession
+        );
+        if (!roleId || !permission) {
+          console.warn(`⚠️ Skipping mapping: ${role} → ${resource}:${action}:${possession}`);
+          return null;
+        }
+        return {
+          role_id: roleId,
+          permission_id: permission.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+      })
+      .filter(Boolean);
 
-    await queryInterface.bulkInsert('role_permissions', role_permissions);
+    await queryInterface.bulkInsert('role_permissions', role_permissions, { ignoreDuplicates: true });
   },
 
   down: async (queryInterface, Sequelize) => {

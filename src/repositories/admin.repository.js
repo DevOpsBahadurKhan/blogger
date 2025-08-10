@@ -15,6 +15,14 @@ class AdminRepository {
         return user;
     }
 
+
+    async assignPermissionToRole() {
+
+    }
+
+    async checkPermissionExists() { return await Permission.findByPk(permissionId); }
+    async checkRoleExists() { return await Role.findByPk(role_id); }
+
 }
 
 export default new AdminRepository();

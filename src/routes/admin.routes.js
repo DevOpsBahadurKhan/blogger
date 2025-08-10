@@ -12,8 +12,8 @@ import * as controller from '../controllers/admin.controller.js';
 // Only admin (or equivalent) can assign permissions
 router.post(
   "/roles/:roleId/permissions/:permissionId",
-  passportJWT().authenticate(),
-  // verifyAccess('assign', 'role_permissions'),
+  passportJWT().authenticate(), 
+  verifyAccess('assign', 'role_permissions', 'any'),
   controller.assignPermissionToRole
 );
 
