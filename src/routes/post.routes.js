@@ -4,7 +4,7 @@ const router = express.Router();
 import * as postController from '../controllers/post.controller.js';
 import passportJWT from '../middlewares/passportJWT.js';
 
-router.post('/posts', passportJWT().authenticate(), postController.createPost);
-router.get('/posts', passportJWT().authenticate(), postController.getPosts);
+router.post('/posts', passportJWT.authenticate("jwt", { session: false }), postController.createPost);
+router.get('/posts', passportJWT.authenticate("jwt", { session: false }), postController.getPosts);
 
 export default router;

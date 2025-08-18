@@ -9,20 +9,17 @@ module.exports = {
       { id: 3, name: 'reader' },
     ];
     await queryInterface.bulkInsert(
-      'Roles',
-      roles.map(r => ({
-        ...r,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })),
+      'roles',
+      roles,
       { ignoreDuplicates: true }
     );
 
     // 2️⃣ Insert permissions with timestamps (added missing ones)
     const permissions = [
       { resource: 'user', action: 'create', possession: 'any' },
+      { resource: 'user', action: 'read', possession: 'any' }, // added: needed by /api/users
       { resource: 'user', action: 'update', possession: 'any' },
-      { resource: 'user', action: 'update', possession: 'own' }, // added
+      { resource: 'user', action: 'update', possession: 'own' },
       { resource: 'user', action: 'delete', possession: 'any' },
 
       { resource: 'role', action: 'create', possession: 'any' },
@@ -43,22 +40,24 @@ module.exports = {
       { resource: 'post', action: 'update', possession: 'any' }, // added
       { resource: 'post', action: 'read', possession: 'any' },
 
+      // comments
+      { resource: 'comment', action: 'create', possession: 'own' },
+      { resource: 'comment', action: 'read', possession: 'any' },
+      { resource: 'comment', action: 'update', possession: 'own' },
+      { resource: 'comment', action: 'delete', possession: 'own' },
+
       { resource: 'role_permissions', action: 'assign', possession: 'any' }, // added
     ];
     await queryInterface.bulkInsert(
-      'Permissions',
-      permissions.map(p => ({
-        ...p,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })),
+      'permissions',
+      permissions,
       { ignoreDuplicates: true }
     );
 
     // 3️⃣ Map role-permission relationships
-    const [roleRows] = await queryInterface.sequelize.query('SELECT id, name FROM Roles');
+    const [roleRows] = await queryInterface.sequelize.query('SELECT id, name FROM roles');
     const [permRows] = await queryInterface.sequelize.query(
-      'SELECT id, resource, action, possession FROM Permissions'
+      'SELECT id, resource, action, possession FROM permissions'
     );
 
     const roleMap = Object.fromEntries(roleRows.map(r => [r.name, r.id]));
@@ -66,6 +65,7 @@ module.exports = {
     const rolePermMappings = [
       // admin
       { role: 'admin', resource: 'user', action: 'create', possession: 'any' },
+      { role: 'admin', resource: 'user', action: 'read', possession: 'any' }, // added: allows listing users
       { role: 'admin', resource: 'user', action: 'update', possession: 'any' },
       { role: 'admin', resource: 'user', action: 'delete', possession: 'any' },
       { role: 'admin', resource: 'role', action: 'create', possession: 'any' },
@@ -80,6 +80,9 @@ module.exports = {
       { role: 'admin', resource: 'post', action: 'update', possession: 'any' },
       { role: 'admin', resource: 'post', action: 'read', possession: 'any' },
       { role: 'admin', resource: 'role_permissions', action: 'assign', possession: 'any' },
+
+      // admin - comments
+      { role: 'admin', resource: 'comment', action: 'read', possession: 'any' },
 
       // author
       { role: 'author', resource: 'user', action: 'update', possession: 'own' },
@@ -100,9 +103,7 @@ module.exports = {
         }
         return {
           role_id: roleId,
-          permission_id: permission.id,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          permission_id: permission.id
         };
       })
       .filter(Boolean);
@@ -112,7 +113,7 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('role_permissions', null, {});
-    await queryInterface.bulkDelete('Permissions', null, {});
-    await queryInterface.bulkDelete('Roles', null, {});
+    await queryInterface.bulkDelete('permissions', null, {});
+    await queryInterface.bulkDelete('roles', null, {});
   }
 };

@@ -7,6 +7,10 @@ export default (sequelize, DataTypes) => {
                 allowNull: false,
                 unique: true,
             },
+            description: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
         },
         {
             tableName: 'roles',
@@ -16,11 +20,26 @@ export default (sequelize, DataTypes) => {
 
     Role.associate = (models) => {
 
-        Role.hasMany(models.User, { foreignKey: 'role_id', as: 'users' });
+        // Many-to-many relationship with User through UserRole
+        Role.belongsToMany(models.User, {
+            through: models.UserRole,
+            foreignKey: 'role_id',
+            otherKey: 'user_id',
+            as: 'users'
+        });
 
+        // One-to-many relationship with UserRole for additional data
+        Role.hasMany(models.UserRole, {
+            foreignKey: 'role_id',
+            as: 'userRoles'
+        });
+
+        // Many-to-many relationship with Permission through RolePermission
         Role.belongsToMany(models.Permission, {
             through: models.RolePermission,
             foreignKey: 'role_id',
+            otherKey: 'permission_id',
+            as: 'permissions'
         });
 
     };

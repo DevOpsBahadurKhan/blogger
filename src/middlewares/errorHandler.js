@@ -1,11 +1,9 @@
+// C:\Users\HP\Desktop\Office Project\BlogBuddy\src\middlewares\errorHandler.js
+// src/middlewares/errorHandler.js
 export default (error, req, res, next) => {
-    const status = error.statusCode || 500;
-    const message = error.message;
-    const data = error.data;
-    const validation = error.validation;
-    res.status(status).json({
-        message,
-        data,
-        validation
+    res.status(error.statusCode || 500).json({
+        message: error.message || 'Internal Server Error',
+        data: error.data || null,
+        validation: error.validation || null
     });
 };

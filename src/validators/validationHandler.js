@@ -1,3 +1,6 @@
+//BlogBuddy/src/validators/validationHandler.js
+
+
 import { validationResult } from 'express-validator';
 
 export default function validateRequest(req) {

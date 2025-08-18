@@ -1,50 +1,42 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import logger from '../utils/logger.js';
 import db from '../models/index.js';
 
-const { User, Role } = db;
+const User = db.User;
 
-const params = {
-  secretOrKey: process.env.jwtSecret,
+const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
 };
 
-export default () => {
-  const strategy = new JwtStrategy(params, async (payload, done) => {
-    try {
-      const user = await User.findByPk(payload.id, {
-        include: {
-          model: Role,
-          as: 'role',
-          attributes: ['id', 'name'],
-        },
-      });
+const strategy = new JwtStrategy(options, async (payload, done) => {
+  try {
+    // Load user with roles so downstream verifyAccess() has a role string
+    const user = await User.findByPk(payload.id, {
+      include: [
+        // Association alias is commonly 'roles'. If the alias differs, adjust in models.
+        { model: db.Role, as: 'roles', through: { attributes: [] } }
+      ]
+    });
 
-      if (!user) return done(new Error('User not found'), null);
+    if (!user) return done(null, false);
 
-      // Store roleId before overwriting role with name
-      const roleObj = user.role; 
-      user.roleId = roleObj?.id;
-      user.role = roleObj?.name; // keep string for Casbin
+    // Derive a single role name expected by access control (first role if multiple)
+    const rolesArr = Array.isArray(user.roles) ? user.roles : [];
+    const roleName = rolesArr.length > 0 ? rolesArr[0].name : null;
+    // Attach for middleware consumption
+    user.role = roleName;
 
-      logger.info('User authenticated', {
-        userId: user.id,
-        role: user.role,
-        roleId: user.roleId,
-        email: user.email
-      });
+    return done(null, user);
+  } catch (err) {
+    return done(err, false);
+  }
+});
 
-      return done(null, user);
-    } catch (err) {
-      return done(err, null);
-    }
-  });
+passport.use(strategy);
 
-  passport.use(strategy);
-
-  return {
-    initialize: () => passport.initialize(),
-    authenticate: () => passport.authenticate('jwt', { session: false }),
-  };
+export default {
+  initialize: () => passport.initialize(),
+  authenticate: () => passport.authenticate('jwt', { session: false })
 };
+

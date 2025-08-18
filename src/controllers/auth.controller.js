@@ -1,6 +1,5 @@
 import authService from '../services/auth.service.js';
 import validationHandler from '../validators/validationHandler.js';
-import logger from '../utils/logger.js';
 
 export const register = async (req, res, next) => {
     try {
@@ -21,7 +20,6 @@ export const register = async (req, res, next) => {
 
         res.json({ user, accessToken });
     } catch (err) {
-        logger.error(err)
         next(err);
     }
 };
@@ -41,7 +39,6 @@ export const login = async (req, res, next) => {
 
         res.json({ user, accessToken });
     } catch (err) {
-        logger.error(err)
         next(err);
     }
 };

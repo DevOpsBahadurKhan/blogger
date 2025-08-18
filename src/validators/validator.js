@@ -1,3 +1,4 @@
+// BlogBuddy/src/validators/validator.js
 import { body, param } from 'express-validator';
 
 // Validate question field
@@ -33,6 +34,21 @@ export const updateUserRoleValidator = [
   body('role_id')
     .isInt().withMessage('Role ID must be a valid number')
 
-  
 
+
+];
+
+
+
+// ✅ Validate roleId and permissionId params (with empty check)
+export const assignPermissionValidator = [
+  param('roleId')
+    .notEmpty().withMessage('Role ID is required')
+    .bail() // stop running further validations if empty
+    .isInt({ min: 1 }).withMessage('Role ID must be a valid positive integer'),
+
+  param('permissionId')
+    .notEmpty().withMessage('Permission ID is required')
+    .bail()
+    .isInt({ min: 1 }).withMessage('Permission ID must be a valid positive integer')
 ];

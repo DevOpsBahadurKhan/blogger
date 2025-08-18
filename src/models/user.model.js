@@ -28,11 +28,7 @@ export default (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            role_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                defaultValue: 3
-            },
+            // Removed role_id - now using many-to-many through UserRole
         },
         {
             tableName: 'users',
@@ -55,9 +51,31 @@ export default (sequelize, DataTypes) => {
 
     // Associations
     User.associate = (models) => {
-        User.belongsTo(models.Role, { foreignKey: 'role_id', as: 'role' });
-        User.hasMany(models.Post, { foreignKey: 'user_id', as: 'posts' });
-        User.hasMany(models.Comment, { foreignKey: 'user_id', as: 'comments' });
+        // Many-to-many relationship with Role through UserRole
+        User.belongsToMany(models.Role, {
+            through: models.UserRole,
+            foreignKey: 'user_id',
+            otherKey: 'role_id',
+            as: 'roles'
+        });
+
+        // One-to-many relationship with UserRole for additional data
+        User.hasMany(models.UserRole, {
+            foreignKey: 'user_id',
+            as: 'userRoles'
+        });
+
+        // One-to-many relationship with Post
+        User.hasMany(models.Post, {
+            foreignKey: 'user_id',
+            as: 'posts'
+        });
+
+        // One-to-many relationship with Comment
+        User.hasMany(models.Comment, {
+            foreignKey: 'user_id',
+            as: 'comments'
+        });
     };
 
     return User;

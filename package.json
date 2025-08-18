@@ -5,9 +5,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon index.js",
+    "migrate": "npx sequelize-cli db:migrate --env development",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo --env development",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all --env development",
+    "migrate:status": "npx sequelize-cli db:migrate:status --env development",
     "seed": "npx sequelize-cli db:seed:all --env development",
-    "seed:undo": "npx sequelize-cli db:seed:undo:all --env development"
+    "seed:undo": "npx sequelize-cli db:seed:undo:all --env development",
+    "deploy": "npm run migrate && npm run seed",
+    "reset-db": "npm run migrate:undo:all && npm run migrate && npm run seed"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +23,7 @@
     "@elastic/elasticsearch": "^8.19.0",
     "bcrypt": "^6.0.0",
     "casbin": "^5.38.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",

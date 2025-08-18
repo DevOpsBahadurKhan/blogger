@@ -15,8 +15,14 @@ export default (sequelize, DataTypes) => {
     );
 
     Comment.associate = (models) => {
-        Comment.belongsTo(models.User, { foreignKey: 'userId' });
-        Comment.belongsTo(models.Post, { foreignKey: 'postId' });
+        Comment.belongsTo(models.User, { 
+            foreignKey: 'user_id',
+            as: 'User'
+        });
+        Comment.belongsTo(models.Post, { 
+            foreignKey: 'post_id',
+            as: 'Post'
+        });
     };
 
     return Comment;

@@ -21,14 +21,20 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 
 // Connect & Sync
 const connectDB = async () => {
-    try {
+    try { 
         await createDatabaseIfNotExists(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
         await sequelize.authenticate();
         logger.info('✅ Database connected!');
 
+        // Force sync to ensure tables are created
         await sequelize.sync({ alter: false, force: false });
         logger.info('📦 All models synchronized (auto-migrated).');
+
+        // Log table names to verify they exist
+        const tables = await sequelize.showAllSchemas();
+        logger.info('📋 Available tables:', tables.map(t => t.name));
+    
     } catch (error) {
         logger.error('❌ Unable to connect to the database:', error);
         process.exit(1);
