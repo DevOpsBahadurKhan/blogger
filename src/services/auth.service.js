@@ -4,7 +4,7 @@ import logger from '../utils/logger.js';
 
 class AuthService {
 
-    /** @register New User */
+
     async register(userData) {
         const existingUser = await authRepo.findByEmail(userData.email);
         if (existingUser) {
@@ -38,13 +38,13 @@ class AuthService {
         };
     }
 
-    /** @Login Existing User */
+
     async login(userData) {
-        console.log(`[AuthService] Login attempt for email: ${userData.email}`);
+       (`[AuthService] Login attempt for email: ${userData.email}`);
         
         const user = await authRepo.findByEmail(userData.email);
         if (!user) {
-            console.log(`[AuthService] User not found for email: ${userData.email}`);
+           (`[AuthService] User not found for email: ${userData.email}`);
             logger.warn(`[Auth] Login failed: Email not found`, {
                 email: userData.email,
                 context: 'login',
@@ -55,9 +55,9 @@ class AuthService {
             throw error;
         }
 
-        console.log(`[AuthService] User found, checking password...`);
+       (`[AuthService] User found, checking password...`);
         const validPassword = await user.validPassword(userData.password);
-        console.log(`[AuthService] Password valid: ${validPassword}`);
+       (`[AuthService] Password valid: ${validPassword}`);
         
         if (!validPassword) {
             logger.warn(`[Auth] Login failed: Invalid password`, {
@@ -87,7 +87,7 @@ class AuthService {
             user: {
                 id: user.id,
                 email: user.email,
-                role: user.role,
+                roles: user.roles.map(r => r.name),
             },
             accessToken,
             refreshToken,
