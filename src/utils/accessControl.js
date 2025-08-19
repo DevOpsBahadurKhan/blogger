@@ -89,12 +89,12 @@ async function getPermissionsForRole(roleName, resource, action, possession) {
     const role = await Role.findOne({
       where: { name: roleName },
       include: [{
-        model: Permission,
+        model: Permission, as:'permissions',
         where: { resource, action, possession }
       }]
     });
 
-    return role?.Permissions || [];
+    return role?.permissions || [];
   } catch (error) {
     console.error('[AccessControl] Error getting permissions:', error);
     return [];
@@ -108,10 +108,10 @@ export async function getRolePermissions(roleName) {
   try {
     const role = await Role.findOne({
       where: { name: roleName },
-      include: [Permission]
+      include: [{ model: Permission, as: 'permissions' }]
     });
 
-    return role?.Permissions || [];
+    return role?.permissions || [];
   } catch (error) {
     console.error('[AccessControl] Error getting role permissions:', error);
     return [];

@@ -5,7 +5,8 @@ export default (sequelize, DataTypes) => {
         {},
         {
             tableName: 'role_permissions', 
-            timestamps: true,     
+            timestamps: true,
+            underscored: true,
             indexes: [
                 {
                     unique: true,

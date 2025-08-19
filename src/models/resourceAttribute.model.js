@@ -39,6 +39,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'resource_attributes',
       timestamps: true,
+      underscored: true,
       indexes: [
         {
           unique: true,

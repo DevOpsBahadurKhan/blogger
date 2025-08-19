@@ -37,6 +37,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'user_attributes',
       timestamps: true,
+      underscored: true,
       indexes: [
         {
           unique: true,

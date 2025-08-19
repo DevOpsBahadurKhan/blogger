@@ -1,7 +1,7 @@
 // blogger\src\controllers\permission.controller.js
 
 import permissionService from '../services/permission.service.js';
-import logger from '../loggers/loggerManager.js';
+import logger from '../utils/logger.js';
 
 // Create Permission
 export const createPermission = async (req, res, next) => {

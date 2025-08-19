@@ -52,6 +52,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('policy_conditions');
+    // Revert only what this migration created
+    await queryInterface.dropTable('policy_conditions').catch(() => { });
   }
 };

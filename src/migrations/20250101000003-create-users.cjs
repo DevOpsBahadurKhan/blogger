@@ -46,6 +46,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    // If a non-migrated 'profiles' table exists (from old auto-sync), drop it first to satisfy FK constraints.
+    await queryInterface.dropTable('profiles').catch(() => {});
     await queryInterface.dropTable('users');
   }
 };
+

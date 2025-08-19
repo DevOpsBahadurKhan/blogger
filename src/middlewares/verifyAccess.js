@@ -6,10 +6,9 @@ import { checkAccess } from '../utils/accessControl.js';
 export default function verifyAccess(action, resource, possession = 'any') {
     return async (req, res, next) => {
         try {
-            console.log('VerifyAccess - req.user:', req.user); // Debug log
             const role = req.user?.role; // Role name string, e.g. 'admin'
             if (!role) {
-                console.log('VerifyAccess - Missing role, user object:', req.user); // Debug log
+                logger.error('VerifyAccess - Missing role, user object:', req.user); // Debug log
                 return res.status(403).json({ message: 'Missing role' });
             }
 

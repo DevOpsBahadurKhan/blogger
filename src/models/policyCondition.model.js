@@ -56,6 +56,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'policy_conditions',
       timestamps: true,
+      underscored: true,
       indexes: [
         {
           fields: ['policy_id', 'order'],

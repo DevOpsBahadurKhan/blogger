@@ -31,6 +31,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'attributes',
       timestamps: true,
+      underscored: true,
     }
   );
 

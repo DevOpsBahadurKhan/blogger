@@ -32,6 +32,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+        field: 'is_active',
       },
       resource: {
         type: DataTypes.STRING(100),
@@ -52,6 +53,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'policies',
       timestamps: true,
+      underscored: true,
       indexes: [
         {
           fields: ['resource', 'action', 'possession'],
@@ -60,7 +62,7 @@ export default (sequelize, DataTypes) => {
           fields: ['priority'],
         },
         {
-          fields: ['isActive'],
+          fields: ['is_active'],
         },
       ],
     }

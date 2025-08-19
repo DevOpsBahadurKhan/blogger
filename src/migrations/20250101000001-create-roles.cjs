@@ -32,6 +32,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    // Drop dependent tables first if they exist (may have been created outside migrations previously)
+    await queryInterface.dropTable('role_policies').catch(() => {});
+    await queryInterface.dropTable('role_permissions').catch(() => {});
     await queryInterface.dropTable('roles');
   }
 };

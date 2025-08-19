@@ -4,15 +4,26 @@ import logger from '../utils/logger.js';
 class CommentService {
 
     async createComment(commentData, userId) {
+        // Normalize input: API may send postId (camelCase); DB column is post_id (snake_case)
+        const postId = commentData.post_id ?? commentData.postId;
+
+        if (!postId) {
+            const error = new Error("'postId' is required");
+            error.statusCode = 422;
+            logger.warn('[Comment] Missing postId on createComment', { userId, bodyKeys: Object.keys(commentData || {}) });
+            throw error;
+        }
+
         const comment = await commentRepo.create({
-            ...commentData,
+            content: commentData.content,
+            post_id: postId,
             user_id: userId
         });
         
         logger.info(`[Comment] New comment created`, {
             commentId: comment.id,
             userId: userId,
-            postId: commentData.postId,
+            postId: postId,
             context: 'createComment'
         });
 

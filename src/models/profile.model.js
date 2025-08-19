@@ -10,19 +10,17 @@ export default function defineProfile(sequelize) {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id',
-      },
-      onDelete: 'CASCADE',
+      field: 'user_id',
     },
     firstName: {
       type: DataTypes.STRING(50),
       allowNull: true,
+      field: 'first_name',
     },
     lastName: {
       type: DataTypes.STRING(50),
       allowNull: true,
+      field: 'last_name',
     },
     bio: {
       type: DataTypes.TEXT,
@@ -35,6 +33,7 @@ export default function defineProfile(sequelize) {
     dateOfBirth: {
       type: DataTypes.DATE,
       allowNull: true,
+      field: 'date_of_birth',
     },
     location: {
       type: DataTypes.STRING(100),
@@ -43,11 +42,12 @@ export default function defineProfile(sequelize) {
   }, {
     tableName: 'profiles',
     timestamps: true,
+    underscored: true,
   });
 
   Profile.associate = function(models) {
     Profile.belongsTo(models.User, {
-      foreignKey: 'userId',
+      foreignKey: 'user_id',
       as: 'user',
     });
   };

@@ -69,7 +69,7 @@ class RoleRepository {
                     model: User,
                     as: 'users',
                     through: { attributes: [] },
-                    attributes: ['id', 'name', 'email']
+                    attributes: ['id', 'username', 'email']
                 }
             ]
         });

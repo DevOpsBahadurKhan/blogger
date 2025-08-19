@@ -50,6 +50,8 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    // Drop the policies table
     await queryInterface.dropTable('policies');
   }
 };
+

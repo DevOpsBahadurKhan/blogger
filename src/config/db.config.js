@@ -26,14 +26,8 @@ const connectDB = async () => {
 
         await sequelize.authenticate();
         logger.info('✅ Database connected!');
-
-        // Force sync to ensure tables are created
-        await sequelize.sync({ alter: false, force: false });
-        logger.info('📦 All models synchronized (auto-migrated).');
-
-        // Log table names to verify they exist
-        const tables = await sequelize.showAllSchemas();
-        logger.info('📋 Available tables:', tables.map(t => t.name));
+        // IMPORTANT: Schema is managed by Sequelize CLI migrations.
+        // Do not auto-sync models to avoid drift with migrations.
     
     } catch (error) {
         logger.error('❌ Unable to connect to the database:', error);

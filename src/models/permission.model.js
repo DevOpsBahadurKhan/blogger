@@ -21,6 +21,7 @@ export default (sequelize, DataTypes) => {
     {
       tableName: 'permissions',
       timestamps: true,
+      underscored: true,
     }
   );
 

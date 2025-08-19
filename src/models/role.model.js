@@ -15,6 +15,7 @@ export default (sequelize, DataTypes) => {
         {
             tableName: 'roles',
             timestamps: true,
+            underscored: true,
         }
     );
 
