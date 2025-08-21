@@ -45,10 +45,12 @@ export default function defineProfile(sequelize) {
     underscored: true,
   });
 
-  Profile.associate = function(models) {
+  Profile.associate = function (models) {
     Profile.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'user',
+      onDelete: 'CASCADE',  // so profile deletes if user is deleted
+      onUpdate: 'CASCADE',
     });
   };
 

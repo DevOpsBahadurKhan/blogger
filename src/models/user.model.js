@@ -65,6 +65,12 @@ export default (sequelize, DataTypes) => {
             as: 'userRoles'
         });
 
+        // One-to-one relationship with Profile
+        User.hasOne(models.Profile, {
+            foreignKey: 'user_id',
+            as: 'profile'
+        });
+
         // One-to-many relationship with Post
         User.hasMany(models.Post, {
             foreignKey: 'user_id',

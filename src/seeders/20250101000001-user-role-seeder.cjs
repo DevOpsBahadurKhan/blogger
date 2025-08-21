@@ -21,8 +21,8 @@ module.exports = {
         assigned_at: new Date(),
         expires_at: null,
         is_active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       // Author user gets author role
       {
@@ -32,8 +32,8 @@ module.exports = {
         assigned_at: new Date(),
         expires_at: null,
         is_active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       // Reader user gets reader role
       {
@@ -43,8 +43,8 @@ module.exports = {
         assigned_at: new Date(),
         expires_at: null,
         is_active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       }
     ].filter(ur => ur.user_id && ur.role_id); // Filter out invalid mappings
 
@@ -65,8 +65,8 @@ module.exports = {
         assigned_at: new Date(),
         expires_at: null,
         is_active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       });
     }
 
@@ -78,8 +78,8 @@ module.exports = {
         assigned_at: new Date(),
         expires_at: null,
         is_active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       });
     }
 

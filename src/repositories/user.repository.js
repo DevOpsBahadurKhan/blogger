@@ -2,62 +2,37 @@ import db from '../models/index.js';
 import logger from '../utils/logger.js';
 import { Op } from 'sequelize';
 
-const { User, Role, Permission } = db;
+const { User, Role, Permission, Profile } = db;
 
 
 class UserRepository {
-    async getProfile() {
+    async getProfile(userId) {
         try {
-            const users = await User.findAll({
-                attributes: { exclude: ['password'] }
+            const user = await User.findByPk(userId, {
+                attributes: { exclude: ['password', 'refreshToken'] },
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile',
+                    }
+                ]
             });
-            
-            logger.info(`[UserRepo] Retrieved ${users.length} user profiles`, {
-                count: users.length,
-                context: 'getProfile'
-            });
-            
-            return users;
+
+            logger.info('[UserRepository] User profile fetched', { userId, hasProfile: !!user?.profile });
+            return user;
         } catch (error) {
-            logger.error(`[UserRepo] Error retrieving user profiles: ${error.message}`, {
-                error: error.stack,
-                context: 'getProfile'
-            });
+            logger.error('[UserRepository] Error getting user profile', { error: error.message, stack: error.stack, userId });
             throw error;
         }
     }
 
-    async me(id) {
-        try {
-            const user = await User.findByPk(id, {
-                include: {
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['name']  
-                },
-                attributes: { exclude: ['password'] }
-            });
-            
-            if (user) {
-                logger.info(`[UserRepo] Retrieved user profile`, {
-                    userId: id,
-                    email: user.email,
-                    context: 'me'
-                });
-            } else {
-                logger.warn(`[UserRepo] User not found`, { userId: id, context: 'me' });
-            }
-            
-            return user;
-        } catch (error) {
-            logger.error(`[UserRepo] Error retrieving user: ${error.message}`, {
-                userId: id,
-                error: error.stack,
-                context: 'me'
-            });
-            throw error;
-        }
-    }
+    
 
     async getAllUsers({ page = 1, limit = 10, search }) {
         try {
@@ -72,12 +47,18 @@ class UserRepository {
             const users = await User.findAll({
                 where: whereClause,
                 attributes: { exclude: ['password', 'refreshToken'] },
-                include: [{
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['id', 'name', 'description'],
-                    through: { attributes: [] }
-                }],
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile'
+                    }
+                ],
                 limit: parseInt(limit),
                 offset: parseInt(offset),
                 order: [['createdAt', 'DESC']]
@@ -112,12 +93,18 @@ class UserRepository {
             
             const user = await User.findByPk(id, {
                 attributes: { exclude: ['password', 'refreshToken'] },
-                include: [{
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['id', 'name', 'description'],
-                    through: { attributes: [] }
-                }]
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile'
+                    }
+                ]
             });
             
             logger.info('[UserRepository] User updated', {
@@ -188,12 +175,18 @@ class UserRepository {
     async getUserRoles(userId) {
         try {
             const user = await User.findByPk(userId, {
-                include: [{
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['id', 'name', 'description'],
-                    through: { attributes: [] }
-                }]
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile'
+                    }
+                ]
             });
             
             if (!user) {
@@ -266,12 +259,18 @@ class UserRepository {
         try {
             const user = await User.findByPk(id, {
                 attributes: { exclude: ['password', 'refreshToken'] },
-                include: [{
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['id', 'name', 'description'],
-                    through: { attributes: [] }
-                }]
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile'
+                    }
+                ]
             });
             
             logger.info('[UserRepository] User retrieved by ID', {
@@ -294,12 +293,18 @@ class UserRepository {
         try {
             const user = await User.findByPk(userId, {
                 attributes: { exclude: ['password', 'refreshToken'] },
-                include: [{
-                    model: Role,
-                    as: 'roles',
-                    attributes: ['id', 'name', 'description'],
-                    through: { attributes: [] }
-                }]
+                include: [
+                    {
+                        model: Role,
+                        as: 'roles',
+                        attributes: ['id', 'name', 'description'],
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Profile,
+                        as: 'profile'
+                    }
+                ]
             });
             
             logger.info('[UserRepository] Current user profile retrieved', {

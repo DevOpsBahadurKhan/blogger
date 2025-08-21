@@ -23,6 +23,33 @@ class UserService {
     }
   }
 
+  async getProfile(userId) {
+    try {
+      const user = await userRepository.getProfile(userId);
+
+      if (!user) {
+        logger.warn('[UserService] User not found for profile fetch', { userId });
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        throw error;
+      }
+
+      logger.info('[UserService] User profile fetched', {
+        userId,
+        hasProfile: !!user.profile
+      });
+
+      return user;
+    } catch (error) {
+      logger.error('[UserService] Error getting user profile', {
+        error: error.message,
+        stack: error.stack,
+        userId
+      });
+      throw error;
+    }
+  }
+
   async updateUser(id, updateData) {
     try {
       const user = await userRepository.updateUser(id, updateData);
@@ -176,34 +203,6 @@ class UserService {
         userId: id,
         error: error.stack,
         context: 'getUserById'
-      });
-      throw error;
-    }
-  }
-
-  async me(id) {
-    try {
-      const user = await userRepository.me(id);
-
-      if (!user) {
-        logger.warn(`[User] User profile not found`, { userId: id, context: 'me' });
-        const error = new Error('User profile not found');
-        error.statusCode = 404;
-        throw error;
-      }
-
-      logger.info(`[User] Retrieved user profile`, {
-        userId: id,
-        email: user.email,
-        context: 'me'
-      });
-
-      return user;
-    } catch (error) {
-      logger.error(`[User] Error retrieving user profile: ${error.message}`, {
-        userId: id,
-        error: error.stack,
-        context: 'me'
       });
       throw error;
     }

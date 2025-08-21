@@ -13,6 +13,7 @@ import roleRoutes from './src/routes/role.routes.js';
 import userRoleRoutes from './src/routes/userRole.routes.js';
 import attributeRoutes from './src/routes/attribute.routes.js';
 import commentRoutes from './src/routes/comment.routes.js';
+import profileRoutes from './src/routes/profile.routes.js';
 import passport from './src/middlewares/passportJWT.js';
 import errorHandler from './src/middlewares/errorHandler.js';
 import loadAccessControl from './src/utils/accessControl.js';
@@ -43,6 +44,7 @@ app.use('/api', roleRoutes);
 app.use('/api', userRoleRoutes);
 app.use('/api', attributeRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/profiles', profileRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
