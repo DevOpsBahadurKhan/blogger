@@ -1,32 +1,20 @@
-# Use Node.js LTS version
-FROM node:18-alpine
+# Use an official Node.js runtime as a base image
+FROM node:20-alpine AS base
 
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package files
+# Copy package.json and package-lock.json (if present)
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including dev if needed)
+RUN npm install --omit=dev
 
-# Copy source code
+# Copy the rest of the application code
 COPY . .
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S blogbuddy -u 1001
-
-# Change ownership of the app directory
-RUN chown -R blogbuddy:nodejs /app
-USER blogbuddy
-
-# Expose port
+# Expose the application port
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node healthcheck.js
-
-# Start the application
+# Start the app
 CMD ["npm", "start"]
