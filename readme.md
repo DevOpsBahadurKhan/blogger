@@ -98,7 +98,12 @@ CREATE TABLE users (
 
 CREATE TABLE profile(
   id int auto_increment not null primary key,
-  
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  age int,
+  addree VARCHAR(255),
+  boi VARCHAR(255),
+
 );
 
 CREATE TABLE roles( 
@@ -168,3 +173,9 @@ CREATE TABLE policy_conditions (
   FOREIGN KEY (policy_id) REFERENCES policies(id),
   FOREIGN KEY (attribute_id) REFERENCES attributes(id)
 );
+
+
+<!-- I want some user has what permissions -->
+<!-- I want all roles -->
+<!-- I want all permissions -->
+<!-- I want all users -->
