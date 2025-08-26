@@ -40,11 +40,11 @@ class AuthService {
 
 
     async login(userData) {
-       (`[AuthService] Login attempt for email: ${userData.email}`);
-        
+        (`[AuthService] Login attempt for email: ${userData.email}`);
+
         const user = await authRepo.findByEmail(userData.email);
         if (!user) {
-           (`[AuthService] User not found for email: ${userData.email}`);
+
             logger.warn(`[Auth] Login failed: Email not found`, {
                 email: userData.email,
                 context: 'login',
@@ -55,10 +55,10 @@ class AuthService {
             throw error;
         }
 
-       (`[AuthService] User found, checking password...`);
+
         const validPassword = await user.validPassword(userData.password);
-       (`[AuthService] Password valid: ${validPassword}`);
-        
+        (`[AuthService] Password valid: ${validPassword}`);
+
         if (!validPassword) {
             logger.warn(`[Auth] Login failed: Invalid password`, {
                 email: user.email,
@@ -78,6 +78,7 @@ class AuthService {
 
         logger.info(`[Auth] User logged in`, {
             userId: user.id,
+            username: user.username,
             email: user.email,
             role: user.roles?.[0]?.name || 'reader',
             context: 'login',
@@ -86,6 +87,7 @@ class AuthService {
         return {
             user: {
                 id: user.id,
+                username: user.username,
                 email: user.email,
                 roles: user.roles.map(r => r.name),
             },
