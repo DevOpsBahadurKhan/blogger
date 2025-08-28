@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "blogbuddy-abac-testing",
-		"name": "BlogBuddy ABAC Testing",
-		"description": "Complete Postman collection for testing the ABAC (Attribute-Based Access Control) system in BlogBuddy",
+		"_postman_id": "gmail-abac-testing",
+		"name": "gmail ABAC Testing",
+		"description": "Complete Postman collection for testing the ABAC (Attribute-Based Access Control) system in gmail",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -21,12 +21,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"admin@blogbuddy.com\",\n  \"password\": \"password123\"\n}"
+							"raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"123\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/auth/login",
+							"raw": "localhost:3000/api/auth/login",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -49,12 +49,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@blogbuddy.com\",\n  \"password\": \"password123\"\n}"
+							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@gmail.com\",\n  \"password\": \"123\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/auth/register",
+							"raw": "localhost:3000/api/auth/register",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -77,13 +77,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users",
+							"raw": "localhost:3000/api/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -100,13 +100,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/profiles/me",
+							"raw": "localhost:3000/api/profiles/me",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -138,13 +138,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"raw": "localhost:3000/api/users/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -162,13 +162,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/profiles/{{userId}}",
+							"raw": "localhost:3000/api/profiles/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -200,7 +200,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -212,9 +212,9 @@
 							"raw": "{\n  \"firstName\": \"Ada\",\n  \"lastName\": \"Lovelace\",\n  \"bio\": \"Writes about computing\",\n  \"avatar\": \"https://example.com/a.png\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"location\": \"London\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/profiles/{{userId}}",
+							"raw": "localhost:3000/api/profiles/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -246,7 +246,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -255,12 +255,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Updated User Name\",\n  \"email\": \"updated@blogbuddy.com\"\n}"
+							"raw": "{\n  \"name\": \"Updated User Name\",\n  \"email\": \"updated@gmail.com\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"raw": "localhost:3000/api/users/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -278,13 +278,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"raw": "localhost:3000/api/users/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -302,7 +302,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -314,9 +314,9 @@
 							"raw": "{\n  \"roleId\": 2\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/role",
+							"raw": "localhost:3000/api/users/{{userId}}/role",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -340,13 +340,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/comments",
+							"raw": "localhost:3000/api/comments",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -363,13 +363,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/comments/post/{{postId}}",
+							"raw": "localhost:3000/api/comments/post/{{postId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -388,13 +388,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/comments/{{commentId}}",
+							"raw": "localhost:3000/api/comments/{{commentId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -412,7 +412,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -424,9 +424,9 @@
 							"raw": "{\n  \"content\": \"This is a test comment for the blog post.\",\n  \"postId\": 1\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/comments",
+							"raw": "localhost:3000/api/comments",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -443,7 +443,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -455,9 +455,9 @@
 							"raw": "{\n  \"content\": \"This is an updated comment with new content.\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/comments/{{commentId}}",
+							"raw": "localhost:3000/api/comments/{{commentId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -475,13 +475,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/comments/{{commentId}}",
+							"raw": "localhost:3000/api/comments/{{commentId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -504,13 +504,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles",
+							"raw": "localhost:3000/api/roles",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -527,13 +527,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}",
+							"raw": "localhost:3000/api/roles/{{roleId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -551,7 +551,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -563,9 +563,9 @@
 							"raw": "{\n  \"name\": \"moderator\",\n  \"description\": \"Content moderator role\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/roles",
+							"raw": "localhost:3000/api/roles",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -582,7 +582,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -594,9 +594,9 @@
 							"raw": "{\n  \"name\": \"senior_moderator\",\n  \"description\": \"Senior content moderator with additional privileges\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}",
+							"raw": "localhost:3000/api/roles/{{roleId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -614,13 +614,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}",
+							"raw": "localhost:3000/api/roles/{{roleId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -638,13 +638,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}/permissions",
+							"raw": "localhost:3000/api/roles/{{roleId}}/permissions",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -663,13 +663,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}/users",
+							"raw": "localhost:3000/api/roles/{{roleId}}/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -693,13 +693,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions",
+							"raw": "localhost:3000/api/permissions",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -716,13 +716,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions/{{permissionId}}",
+							"raw": "localhost:3000/api/permissions/{{permissionId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -740,7 +740,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -752,9 +752,9 @@
 							"raw": "{\n  \"resource\": \"post\",\n  \"action\": \"moderate\",\n  \"possession\": \"any\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions",
+							"raw": "localhost:3000/api/permissions",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -771,7 +771,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -783,9 +783,9 @@
 							"raw": "{\n  \"resource\": \"post\",\n  \"action\": \"moderate\",\n  \"possession\": \"own\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions/{{permissionId}}",
+							"raw": "localhost:3000/api/permissions/{{permissionId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -803,13 +803,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions/{{permissionId}}",
+							"raw": "localhost:3000/api/permissions/{{permissionId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -827,13 +827,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions/resource/post",
+							"raw": "localhost:3000/api/permissions/resource/post",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -852,13 +852,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/permissions/action/read",
+							"raw": "localhost:3000/api/permissions/action/read",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -882,7 +882,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -894,9 +894,9 @@
 							"raw": "{}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}/permissions/{{permissionId}}",
+							"raw": "localhost:3000/api/roles/{{roleId}}/permissions/{{permissionId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -921,7 +921,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -933,9 +933,9 @@
 							"raw": "{\n  \"name\": \"department\",\n  \"description\": \"User department for ABAC policies\",\n  \"dataType\": \"string\",\n  \"isSystem\": false\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/attributes",
+							"raw": "localhost:3000/api/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -952,13 +952,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/attributes",
+							"raw": "localhost:3000/api/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -975,13 +975,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/attributes/{{attributeId}}",
+							"raw": "localhost:3000/api/attributes/{{attributeId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -999,7 +999,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1011,9 +1011,9 @@
 							"raw": "{\n  \"description\": \"Updated description for department attribute\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/attributes/{{attributeId}}",
+							"raw": "localhost:3000/api/attributes/{{attributeId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1031,13 +1031,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/attributes/{{attributeId}}",
+							"raw": "localhost:3000/api/attributes/{{attributeId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1060,13 +1060,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/attributes",
+							"raw": "localhost:3000/api/users/{{userId}}/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1085,7 +1085,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1097,9 +1097,9 @@
 							"raw": "{\n  \"attributeId\": 1,\n  \"value\": \"IT\",\n  \"metadata\": {\n    \"source\": \"admin\",\n    \"setDate\": \"2024-01-01\"\n  }\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/attributes",
+							"raw": "localhost:3000/api/users/{{userId}}/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1123,13 +1123,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/resources/post/{{postId}}/attributes",
+							"raw": "localhost:3000/api/resources/post/{{postId}}/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1149,7 +1149,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1161,9 +1161,9 @@
 							"raw": "{\n  \"attributeId\": 6,\n  \"value\": \"IT\",\n  \"metadata\": {\n    \"setBy\": \"admin\",\n    \"setDate\": \"2024-01-01\"\n  }\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/resources/post/{{postId}}/attributes",
+							"raw": "localhost:3000/api/resources/post/{{postId}}/attributes",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1188,13 +1188,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/posts/{{postId}}",
+							"raw": "localhost:3000/api/posts/{{postId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1212,7 +1212,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1224,9 +1224,9 @@
 							"raw": "{\n  \"title\": \"Time-restricted post\",\n  \"content\": \"This post creation is restricted by time-based ABAC policies.\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/posts",
+							"raw": "localhost:3000/api/posts",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1243,13 +1243,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/posts/{{sensitivePostId}}",
+							"raw": "localhost:3000/api/posts/{{sensitivePostId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1272,7 +1272,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1284,9 +1284,9 @@
 							"raw": "{\n  \"expiresAt\": null\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+							"raw": "localhost:3000/api/users/{{userId}}/roles/{{roleId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1306,13 +1306,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+							"raw": "localhost:3000/api/users/{{userId}}/roles/{{roleId}}",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1332,13 +1332,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/roles",
+							"raw": "localhost:3000/api/users/{{userId}}/roles",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1357,13 +1357,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/roles/permissions",
+							"raw": "localhost:3000/api/users/{{userId}}/roles/permissions",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1383,13 +1383,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/roles/{{roleId}}/users",
+							"raw": "localhost:3000/api/roles/{{roleId}}/users",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
@@ -1408,13 +1408,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}/activate",
+							"raw": "localhost:3000/api/users/{{userId}}/roles/{{roleId}}/activate",
 							"host": [
-								"{{baseUrl}}"
+								"localhost:3000"
 							],
 							"path": [
 								"api",
